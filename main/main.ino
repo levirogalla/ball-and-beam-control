@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include "geeWhiz.h"
+#include "src/geeWhiz/geeWhiz.h"
 
 // ================== Pins ==================
 int MOT_PIN = A0;   // motor angle sensor
