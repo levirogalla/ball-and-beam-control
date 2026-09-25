@@ -54,24 +54,3 @@ void interval_control_code(void) {
   digitalWrite(A5,LOW);   // A5 can be used to measure cycle time using an oscilloscope by connecting the scope to the Arduino Box Motor Leads
  
 }
-
-void calculate_stiction(void) {
-  float initial_theta = angle_pot_to_rad(analogRead(MOT_PIN));
-  float theta = initial_theta;
-  float motor_voltage = 0.0;
-  while (abs(theta - initial_theta) < 0.06) {
-    setMotorVoltage(motor_voltage);
-    delay(200);
-    theta = angle_pot_to_rad(analogRead(MOT_PIN));
-
-    Serial.print("motor voltage: ");
-    Serial.print(motor_voltage, 8);
-    Serial.print(" | theta: ");
-    Serial.println(theta, 5);
-
-    motor_voltage+=0.001;
-  }
-  setMotorVoltage(0.0);
-
-  while (true) {}
-}
