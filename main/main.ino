@@ -1,6 +1,8 @@
 #include <Arduino.h>
 #include "src/geeWhiz/geeWhiz.h"
 #include "src/transfer.h"
+#include "src/position.h"
+#include "src/motor.h"
 
 // ================== Pins ==================
 int MOT_PIN = A0;   // motor angle sensor
@@ -15,12 +17,16 @@ void setup() {
   analogReadResolution(14);
   pinMode(A5, OUTPUT);   // A5 can be used to measure cycle time using an oscilloscope by connecting the scope to the Arduino Box Motor Leads
   Serial.begin(115200);
+
+  pot_angle_sense_config(MOT_PIN);
+
   delay(300);
 
-  geeWhizBegin();                 
+  geeWhizBegin();
   // set_control_interval_ms(100); // 100 ms loop
   // setMotorVoltage(0.0f);
-  calculate_stiction();
+  // calculate_stiction();
+  calculate_overshoot_and_settle();
 
   Serial.println("geeWhiz Started");
 }
@@ -50,7 +56,7 @@ void interval_control_code(void) {
     Serial.print(",");
   Serial.print(ball);
   Serial.print(",");
-  Serial.println(angle_pot_to_rad(motor));
+  Serial.println(pot_angle_read_eng());
   digitalWrite(A5,LOW);   // A5 can be used to measure cycle time using an oscilloscope by connecting the scope to the Arduino Box Motor Leads
  
 }
