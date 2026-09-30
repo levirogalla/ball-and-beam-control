@@ -44,7 +44,7 @@ void setMotorVoltage(float volts) {
   motorPWM.pulse_perc(duty);
 }
 
-void set_control_interval_ms(float interval_us)
+void set_control_interval_us(uint32_t interval_us)
 {
   if (interval_us == 0)
     interval_us = 1000;

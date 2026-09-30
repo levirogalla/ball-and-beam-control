@@ -6,7 +6,7 @@
 #define POS_V_STICTION 0.120f
 #define NEG_V_STICTION -0.101f
 
-static PwmOut s_motor_pwm;
+static PwmOut *s_motor_pwm;
 static constexpr float PWM_HZ = 24000.0f;
 static int s_motor_dir_pin;
 
@@ -14,17 +14,22 @@ static int s_motor_dir_pin;
 void motor_config(int pwm_pin, int dir_pin)
 {
   PwmOut _motor_pwm(pwm_pin);
-  s_motor_pwm = _motor_pwm;
+  *s_motor_pwm = _motor_pwm;
   s_motor_dir_pin = dir_pin;
 }
 
-void motor_init()
+int motor_init()
 {
   pinMode(s_motor_dir_pin, OUTPUT);
   digitalWrite(s_motor_dir_pin, LOW);
 
   // Start 24 kHz PWM on D9 at 0% duty
-  s_motor_pwm.begin(PWM_HZ, 0.0f);
+  if (s_motor_pwm == nullptr)
+  {
+    return -1;
+  }
+  s_motor_pwm->begin(PWM_HZ, 0.0f);
+  return 0;
 }
 
 void set_motor_voltage_no_stick(float volts)
@@ -44,11 +49,13 @@ void set_motor_voltage_no_stick(float volts)
 }
 
 /// @brief Calculate and print stiction of motor
-void calculate_stiction(void) {
+void calculate_stiction(void)
+{
   float initial_theta = pot_angle_read_eng();
   float theta = initial_theta;
   float motor_voltage = 0.0;
-  while (abs(theta - initial_theta) < 0.06) {
+  while (abs(theta - initial_theta) < 0.06)
+  {
     setMotorVoltage(motor_voltage);
     delay(200);
     theta = pot_angle_read_eng();
@@ -58,48 +65,11 @@ void calculate_stiction(void) {
     Serial.print(" | theta: ");
     Serial.println(theta, 5);
 
-    motor_voltage-=0.001;
+    motor_voltage -= 0.001;
   }
   setMotorVoltage(0.0);
 
-  while (true) {}
-}
-
-void calculate_overshoot_and_settle(void)
-{
-  float theta0 = 0;
-  float theta1 = 0.2;
-
-  float t0 = millis();
-  bool state = 0;
-  float theta_desired = theta0;
   while (true)
   {
-    if (millis() - t0 > 400)
-    {
-      state = !state;
-      t0 = millis();
-    }
-    if (state)
-    { // high state
-      theta_desired = theta1;
-    }
-    else
-    { // low state
-      theta_desired = theta0;
-    }
-
-    float angle = pot_angle_sample(100);
-    // float angle = pot_angle_read_eng();
-    set_motor_voltage_no_stick(motor_controller_theta_to_volt(theta_desired, angle));
-    // set_motor_voltage_no_stick(theta_desired);
-
-    Serial.print(-0.1);
-    Serial.print(", ");
-    Serial.print(0.3);
-    Serial.print(", ");
-    Serial.print(theta_desired);
-    Serial.print(", ");
-    Serial.println(angle, 5);
   }
 }
