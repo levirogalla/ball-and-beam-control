@@ -1,12 +1,6 @@
 #pragma once
 #include <Arduino.h>
 
-// Init motor outputs: D9 PWM @ 24 kHz, D8 DIR
-void geeWhizBegin();
-
-// Drive motor with voltage command in ±6 V (saturated)
-void setMotorVoltage(float volts);
-
 // Start a periodic ISR at 'interval_us' using a GPT timer (no PWM conflict)
 void set_control_interval_us(uint32_t interval_us);
 

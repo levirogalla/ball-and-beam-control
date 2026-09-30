@@ -11,7 +11,13 @@ int BAL_PIN = A1; // ball position sensor
 int PWM_PIN = D9; // motor PWM
 int DIR_PIN = D8; // direction
 
-static volatile float s_theta_desired = 0.0f;
+typedef enum
+{
+  APP_STATE_CALCULATE_OVERSHOOT,
+  APP_STATE_CALCULATE_STICKTION,
+} AppState;
+
+static AppState s_app_state;
 
 void calculate_stiction(void);
 
@@ -29,41 +35,32 @@ void setup()
   delay(300);
 
   motor_init();
-
   set_control_interval_us(100); // 10 kHz
-  // setMotorVoltage(0.0f);
-  // calculate_stiction();
 
-  Serial.println("geeWhiz Started");
+  s_app_state = APP_STATE_CALCULATE_OVERSHOOT;
+  Serial.println("initialization complete!");
 }
 
 // ================== Loop ==================
+
 void loop()
 {
-  float theta0 = 0.0f;
-  float theta1 = 0.2f;
-
-  static uint32_t t0 = millis();
-  static bool state = false;
-
-  if (millis() - t0 > 400)
+  switch (s_app_state)
   {
-    state = !state;
-    t0 = millis();
+  case APP_STATE_CALCULATE_OVERSHOOT:
+    calculate_overshoot(400);
+    break;
+  case APP_STATE_CALCULATE_STICKTION:
+    calculate_stiction();
+    break;
   }
 
-  float theta_desired = state ? theta1 : theta0;
-  noInterrupts();
-  s_theta_desired = theta_desired;
-  interrupts();
-
   float angle = pot_angle_read_eng();
-
   Serial.print(-0.1);
   Serial.print(", ");
   Serial.print(0.3);
   Serial.print(", ");
-  Serial.print(theta_desired, 5);
+  Serial.print(get_theta_desired(), 5);
   Serial.print(", ");
   Serial.println(angle, 5);
 }
@@ -76,5 +73,6 @@ void loop()
 void interval_control_code(void)
 {
   float angle = pot_angle_read_eng();
-  set_motor_voltage_no_stick(motor_controller_theta_to_volt(s_theta_desired, angle));
+  float theta_desired = get_theta_desired();
+  set_motor_voltage_no_stick(motor_controller_theta_to_volt(theta_desired, angle));
 }
