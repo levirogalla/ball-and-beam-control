@@ -5,7 +5,7 @@
 static int s_angle_pin;
 
 void pot_angle_sense_config(int angle_pin) {
-  angle_pin = angle_pin;
+  s_angle_pin = angle_pin;
 }
 
 float pot_angle_sample(int n)
