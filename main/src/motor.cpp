@@ -1,9 +1,31 @@
 #include "geeWhiz/geeWhiz.h"
 #include "position.h"
 #include "transfer.h"
+#include <pwm.h>
 
 #define POS_V_STICTION 0.120f
 #define NEG_V_STICTION -0.101f
+
+static PwmOut s_motor_pwm;
+static constexpr float PWM_HZ = 24000.0f;
+static int s_motor_dir_pin;
+
+// must be called before motor init
+void motor_config(int pwm_pin, int dir_pin)
+{
+  PwmOut _motor_pwm(pwm_pin);
+  s_motor_pwm = _motor_pwm;
+  s_motor_dir_pin = dir_pin;
+}
+
+void motor_init()
+{
+  pinMode(s_motor_dir_pin, OUTPUT);
+  digitalWrite(s_motor_dir_pin, LOW);
+
+  // Start 24 kHz PWM on D9 at 0% duty
+  s_motor_pwm.begin(PWM_HZ, 0.0f);
+}
 
 void set_motor_voltage_no_stick(float volts)
 {

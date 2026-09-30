@@ -8,6 +8,8 @@
 int MOT_PIN = A0;   // motor angle sensor
 int BAL_PIN = A1;   // ball position sensor
 
+int PWM_PIN = D9; // motor PWM
+int DIR_PIN = D8; // direction
 
 void calculate_stiction(void);
 
@@ -19,11 +21,13 @@ void setup() {
   Serial.begin(115200);
 
   pot_angle_sense_config(MOT_PIN);
+  motor_config(PWM_PIN);
 
   delay(300);
 
-  geeWhizBegin();
-  // set_control_interval_ms(100); // 100 ms loop
+  motor_init();
+
+  set_control_interval_ms(100); // 100 ms loop
   // setMotorVoltage(0.0f);
   // calculate_stiction();
   calculate_overshoot_and_settle();

@@ -44,9 +44,11 @@ void setMotorVoltage(float volts) {
   motorPWM.pulse_perc(duty);
 }
 
-void set_control_interval_ms(uint16_t interval_ms) {
-  if (interval_ms == 0) interval_ms = 1;
-  const float freq_hz = 1000.0f / (float)interval_ms;
+void set_control_interval_ms(float interval_us)
+{
+  if (interval_us == 0)
+    interval_us = 1000;
+  const float freq_hz = 1000000.0f / interval_us;
 
   // Use a GPT timer (don’t touch AGT: it’s used by Arduino timebase)
   uint8_t timer_type = GPT_TIMER;
