@@ -15,7 +15,7 @@ void setup() {
   delay(300);
 
   geeWhizBegin();                 
-  set_control_interval_ms(100); // 100 ms loop
+  set_control_interval_us(100000); // 100 ms loop
   setMotorVoltage(0.0f);
 
   Serial.println("geeWhiz Started");

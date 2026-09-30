@@ -1,17 +1,6 @@
 #include "geeWhiz.h"
-#include <pwm.h>        // UNO R4 PWM helper
 #include <FspTimer.h>   // UNO R4 timer helper
 
-// ---- Pins & constants ----
-static constexpr uint8_t PWM_PIN  = D9;       // motor PWM
-static constexpr uint8_t DIR_PIN  = D8;       // direction
-static constexpr float    VMAX     = 6.0f;    // ±6 V saturator
-static constexpr float    PWM_HZ   = 24000.0f;
-static constexpr float    DUTY_MAX = 99.2f;   // avoid true 100%
-static constexpr float    DUTY_MIN = 0.0f;
-
-// ---- Objects ----
-static PwmOut   motorPWM(PWM_PIN);  // GPT-backed PWM for D9
 static FspTimer controlTimer;       // separate GPT for the control ISR
 
 // ---- ISR adapter ----
@@ -22,29 +11,7 @@ static void timer_cb_adapter(timer_callback_args_t *) {
 }
 
 // ---- API ----
-void geeWhizBegin() {
-  pinMode(DIR_PIN, OUTPUT);
-  digitalWrite(DIR_PIN, LOW);
-
-  // Start 24 kHz PWM on D9 at 0% duty
-  motorPWM.begin(PWM_HZ, 0.0f);
-}
-
-void setMotorVoltage(float volts) {
-  // Saturate to ±6 V
-  if (volts >  VMAX) volts =  VMAX;
-  if (volts < -VMAX) volts = -VMAX;
-
-  // Direction and duty
-  digitalWrite(DIR_PIN, (volts >= 0.0f) ? HIGH : LOW);
-  float duty = (fabsf(volts) / VMAX) * 100.0f;
-  if (duty > DUTY_MAX) duty = DUTY_MAX;
-  if (duty < DUTY_MIN) duty = DUTY_MIN;
-
-  motorPWM.pulse_perc(duty);
-}
-
-void set_control_interval_ms(float interval_us)
+void set_control_interval_us(uint32_t interval_us)
 {
   if (interval_us == 0)
     interval_us = 1000;
@@ -63,8 +30,7 @@ void set_control_interval_ms(float interval_us)
   if (tindex < 0) return;           // no timer available
 
   if (forced) {
-    // Permit using a PWM-reserved GPT *for the timer only*.
-    // PwmOut(D9) will keep its own GPT channel; FspTimer will pick a different one.
+    // Permit using a PWM-reserved GPT for the timer.
     FspTimer::force_use_of_pwm_reserved_timer();
   }
 
