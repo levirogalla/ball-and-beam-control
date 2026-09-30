@@ -7,24 +7,48 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 
-% --- Document Metadata ---
-\title{Your Project Title}
-\author{Your Name}
-\date{\today}
-
 \begin{document}
 
-\maketitle
+% --- Custom Single Title Page ---
+\begin{titlepage}
+    \centering
+    \vspace*{0.5in}
 
-\begin{abstract}
-This is a short abstract or summary of your document. 
-\end{abstract}
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.3\textwidth]{"figures/University_of_Waterloo_seal.png"}
+    \end{figure}
+
+    \vspace{1.5cm}
+
+    % Custom Title & Subtitle
+    {\Huge \bfseries Lab 1: Modelling of the Motor System \par}
+
+    \vspace{0.5cm}
+    {\Large MTE 484: Digital Control Systems \par}
+    \vspace{0.1cm}
+    {\Large Instructor Sergio Livera \par}
+    \vspace{0.5cm}
+    {\large Department of Mechatronics and Mechanical Engineering \par}
+
+
+
+    \vfill % Automatically fills vertical space, pushing author/date to the bottom
+
+    % Custom Author Info
+    {\Large \textbf{Levi Rogalla} \par}
+    {\Large \textbf{Alex Veric} \par}
+
+    \vspace{1.5cm}
+
+    {\large \today \par}
+
+    \vspace*{0.5in}
+\end{titlepage}
+
 
 \section{Introduction}
-Welcome to your new LaTeX project in VS Code! You can write your introduction right here, or you can keep your files organized by putting chapters inside your \texttt{src/} folder and pulling them in using \texttt{\textbackslash input\{src/filename\}}.
 
-For example, if you create \texttt{src/chapter1.tex}, you can include it like this:
-% \input{src/chapter1}
 
 \section{Conclusion}
 Happy typesetting!
