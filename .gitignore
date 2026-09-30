@@ -1,1 +1,6 @@
 .pm
+
+# LaTeX auxiliary and log files:
+report/aux_files/*
+!report/aux_files/.gitkeep
+*.synctex.gz
