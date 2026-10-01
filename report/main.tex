@@ -48,11 +48,11 @@
 
 
 \section{Introduction}
-Lab one introduces the motor and gear mechanism that we will be using for the following
-lab sessions in order to complete the ball and beam balancing project. The mechanism must
-be properly characterized in order to facilitate the completion of this project. This
+This lab introduces the motor and gear mechanism which are to be used for the 'ball balancing on beam'
+project, which must be properly characterized in order to facilitate the completion of the project. This
 includes experimentally determining values for 'stiction' and the transfer function of the
-motor, which will be described in detail in this lab report.
+motor. These activities were performed during the span of the lab session, and their procedures and results
+are described in detail in the following report.
 
 \section{Question C}
 By this point in the lab, the set up was already complete. The Arduino was functioning as
@@ -89,7 +89,11 @@ The values of voltage that determine the deadzone range must be experimentally d
 Additionally, it is important to determine them in both directions, as the stiction in
 motors is not often symmetrical. In order to complete this task, a function was derived
 that, given a direction, methodically applies an increasing voltage to the motor, and
-only stops the loop once the potentiometer detects the motor start to change position. \par
-
+only stops the loop once the potentiometer detects the motor start to change position.
+\par The values for stiction have been determined for both directions, differentiated by
+whether the voltage values were increasing or decreasing:
+\begin{equation}
+    v_{increasing} = 0.120 V, v_{decreasing} = 0.101 V
+\end{equation}
 
 \end{document}
