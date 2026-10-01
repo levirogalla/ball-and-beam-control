@@ -48,9 +48,48 @@
 
 
 \section{Introduction}
+Lab one introduces the motor and gear mechanism that we will be using for the following
+lab sessions in order to complete the ball and beam balancing project. The mechanism must
+be properly characterized in order to facilitate the completion of this project. This
+includes experimentally determining values for 'stiction' and the transfer function of the
+motor, which will be described in detail in this lab report.
 
+\section{Question C}
+By this point in the lab, the set up was already complete. The Arduino was functioning as
+intended, and with the sample code provided, it was possible to both send voltage values to
+the motor and read sensor data, which included the motor rotational position and the ball's
+position on the beam. These values were printed out on the serial monitor, allowing
+them to be recorded.\par
+The values of the motor position being output needed to be converted to radians in order
+to be useful. Using the following formula, the
+motor position output values could be linearized and converted into radians:
+\begin{equation}
+    p_{radians} = m * p_{sensor} + b
+\end{equation}
+Where the $m$ and $b$ values must be determined through a system of equations, using
+experimental values of $p_{rad}$ and $p_{sensor}$ to do so. \par
+The position of the motor was manually changed to three points: $0$, $\frac{\pi}{4}$,
+and $-\frac{\pi}{4}$ radians. The values printed into the serial monitor were read at each
+point, providing concrete values of $p_{rad}$ and $p_{sensor}$. These values were put
+into the system of equations, and solving for this provided values for $m$ and $b$:
+\begin{equation}
+    m = -0.000359453251, b = 1.75789534
+\end{equation}
 
-\section{Conclusion}
-Happy typesetting!
+\section{Question D}
+The term 'stiction' describes the concept of static friction that exists in motors before
+they start moving. This creates a range of voltage values that, when sent to the
+motor, will not move the motor at all. This impacts the accuracy of the mechanism,
+especially when considering the fine movements required to balance a ball on a beam.
+This must be counteracted by creating a 'deadzone' at a certain range; for example,
+if the deadzone range is determined to be -0.1 to 0.1 volts, any voltage input
+within this range would be immediately rounded to either 0.1 or -0.1, depending on the
+direction. \par
+The values of voltage that determine the deadzone range must be experimentally determined.
+Additionally, it is important to determine them in both directions, as the stiction in
+motors is not often symmetrical. In order to complete this task, a function was derived
+that, given a direction, methodically applies an increasing voltage to the motor, and
+only stops the loop once the potentiometer detects the motor start to change position. \par
+
 
 \end{document}
