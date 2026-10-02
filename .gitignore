@@ -6,3 +6,5 @@ report/aux_files/*
 report/output/*.synctex.gz
 
 .clangd
+
+.DS_Store
