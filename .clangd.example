@@ -1,0 +1,46 @@
+# Copy this file to .clangd and replace the Arduino installation paths below.
+# The paths shown here assume an Arduino UNO R4 WiFi using the Renesas core.
+
+CompileFlags:
+  Add:
+    - -std=c++14
+    - -DARDUINO_ARCH_RENESAS
+    - -DARDUINO_FSP
+    - -DARDUINO_UNOR4_WIFI
+    - -I.
+    - -Imain/src
+    - -Imain/src/geeWhiz
+
+    # Replace /path/to/Arduino15 with your Arduino data directory.
+    - -I/path/to/Arduino15/packages/arduino/hardware/renesas_uno/1.6.0/cores/arduino
+    - -I/path/to/Arduino15/packages/arduino/hardware/renesas_uno/1.6.0/variants/UNOWIFIR4
+    - -I/path/to/Arduino15/packages/arduino/hardware/renesas_uno/1.6.0/variants/UNOWIFIR4/includes
+    - -I/path/to/Arduino15/packages/arduino/hardware/renesas_uno/1.6.0/variants/UNOWIFIR4/includes/ra_cfg/fsp_cfg
+    - -I/path/to/Arduino15/packages/arduino/hardware/renesas_uno/1.6.0/variants/UNOWIFIR4/includes/ra_cfg/fsp_cfg/bsp
+    - -I/path/to/Arduino15/packages/arduino/hardware/renesas_uno/1.6.0/variants/UNOWIFIR4/includes/ra_gen
+    - -I/path/to/Arduino15/packages/arduino/hardware/renesas_uno/1.6.0/variants/UNOWIFIR4/includes/ra/fsp/inc
+    - -I/path/to/Arduino15/packages/arduino/hardware/renesas_uno/1.6.0/variants/UNOWIFIR4/includes/ra/fsp/inc/api
+    - -I/path/to/Arduino15/packages/arduino/hardware/renesas_uno/1.6.0/variants/UNOWIFIR4/includes/ra/fsp/inc/instances
+    - -I/path/to/Arduino15/packages/arduino/hardware/renesas_uno/1.6.0/variants/UNOWIFIR4/includes/ra/fsp/src/bsp
+    - -I/path/to/Arduino15/packages/arduino/hardware/renesas_uno/1.6.0/variants/UNOWIFIR4/includes/ra/fsp/src/bsp/mcu/all
+    - -I/path/to/Arduino15/packages/arduino/hardware/renesas_uno/1.6.0/variants/UNOWIFIR4/includes/ra/fsp/src/bsp/mcu/ra4m1
+    - -I/path/to/Arduino15/packages/arduino/hardware/renesas_uno/1.6.0/variants/UNOWIFIR4/includes/ra/arm/CMSIS_5/CMSIS/Core/Include
+
+    # Update these paths if the libraries are installed elsewhere.
+    - -I/path/to/Arduino/libraries/Servo/src
+    - -I/path/to/Arduino/libraries/FastLED/src
+
+    # Required when using clangd on macOS.
+    - -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1
+    - -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include
+
+Diagnostics:
+  MissingIncludes: Strict
+
+---
+If:
+  PathMatch: .*\.ino
+CompileFlags:
+  Add:
+    - -x
+    - c++
