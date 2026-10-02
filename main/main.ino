@@ -35,7 +35,7 @@ void setup()
   delay(300);
 
   motor_init();
-  set_control_interval_us(100); // 10 kHz
+  set_control_interval_us(200); // 5 kHz
 
   s_app_state = APP_STATE_CALCULATE_OVERSHOOT;
   Serial.println("initialization complete!");
@@ -55,7 +55,7 @@ void loop()
     break;
   }
 
-  float angle = pot_angle_read_eng();
+  float angle = pot_angle_sample(10);
   // Serial.print(-0.1);
   // Serial.print(", ");
   // Serial.print(0.3);
@@ -72,7 +72,7 @@ void loop()
 // ================== Control ISR ==================
 void interval_control_code(void)
 {
-  float angle = pot_angle_read_eng();
+  float angle = pot_angle_sample(10);
   float theta_desired = get_theta_desired();
   set_motor_voltage_no_stick(motor_controller_theta_to_volt(theta_desired, angle));
 }
