@@ -6,7 +6,7 @@ float pot_angle_raw_to_rad(int v)
     return (float)v * ANGLE_SLOPE + ANGLE_INTERCEPT;
 }
 
-#define MOTOR_CONTROLLER_KP -100
+#define MOTOR_CONTROLLER_KP -8
 
 float motor_controller_theta_to_volt(float theta_target, float theta)
 {

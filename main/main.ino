@@ -48,7 +48,7 @@ void loop()
   switch (s_app_state)
   {
   case APP_STATE_CALCULATE_OVERSHOOT:
-    calculate_overshoot(400);
+    calculate_overshoot(1000);
     break;
   case APP_STATE_CALCULATE_STICKTION:
     calculate_stiction();
@@ -56,10 +56,10 @@ void loop()
   }
 
   float angle = pot_angle_read_eng();
-  Serial.print(-0.1);
-  Serial.print(", ");
-  Serial.print(0.3);
-  Serial.print(", ");
+  // Serial.print(-0.1);
+  // Serial.print(", ");
+  // Serial.print(0.3);
+  // Serial.print(", ");
   Serial.print(get_theta_desired(), 5);
   Serial.print(", ");
   Serial.println(angle, 5);
