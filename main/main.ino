@@ -31,11 +31,12 @@ void setup()
   pinMode(A5, OUTPUT); // A5 can be used to measure cycle time using an oscilloscope by connecting the scope to the Arduino Box Motor Leads
   Serial.begin(115200);
 
-  pot_angle_sense_config(MOT_PIN);
+  pot_angle_config(MOT_PIN, 5);
   motor_config(PWM_PIN, DIR_PIN);
 
   delay(300);
 
+  pot_angle_populate();
   motor_init();
   set_control_interval_us(ISR_PERIOD_US); // 2 kHz
 
@@ -57,7 +58,7 @@ void loop()
     break;
   }
 
-  float angle = pot_angle_sample(10);
+  float angle = pot_angle_read_eng();
   // Serial.print(-0.1);
   // Serial.print(", ");
   // Serial.print(0.3);
@@ -81,7 +82,8 @@ void loop()
 // ================== Control ISR ==================
 void interval_control_code(void)
 {
-  float angle = pot_angle_sample(5);
+  pot_angle_populate();
+  float angle = pot_angle_read_eng();
   float theta_desired = get_theta_desired();
   set_motor_voltage_no_stick(motor_controller_theta_to_volt(theta_desired, angle));
 }

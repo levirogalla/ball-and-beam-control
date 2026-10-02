@@ -123,6 +123,7 @@ void calculate_overshoot(uint32_t period_ms)
 void calculate_stiction(void)
 {
   noInterrupts();
+  pot_angle_populate();
   float initial_theta = pot_angle_read_eng();
   float theta = initial_theta;
   float motor_voltage = 0.0;
@@ -130,6 +131,7 @@ void calculate_stiction(void)
   {
     set_motor_voltage(motor_voltage);
     delay(200);
+    pot_angle_populate();
     theta = pot_angle_read_eng();
 
     Serial.print("motor voltage: ");
