@@ -4,3 +4,5 @@
 report/aux_files/*
 !report/aux_files/.gitkeep
 report/output/*.synctex.gz
+
+.clangd
