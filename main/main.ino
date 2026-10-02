@@ -1,9 +1,11 @@
-#include <Arduino.h>
 #include "src/geeWhiz/geeWhiz.h"
-#include "src/transfer.h"
-#include "src/position.h"
 #include "src/motor.h"
+#include "src/position.h"
+#include "src/transfer.h"
+#include <Arduino.h>
+#include <cstdint>
 
+#define ISR_PERIOD_US 500
 // ================== Pins ==================
 int MOT_PIN = A0; // motor angle sensor
 int BAL_PIN = A1; // ball position sensor
@@ -35,14 +37,14 @@ void setup()
   delay(300);
 
   motor_init();
-  set_control_interval_us(100); // 10 kHz
+  set_control_interval_us(ISR_PERIOD_US); // 2 kHz
 
   s_app_state = APP_STATE_CALCULATE_OVERSHOOT;
   Serial.println("initialization complete!");
 }
 
 // ================== Loop ==================
-
+uint64_t sample = 0;
 void loop()
 {
   switch (s_app_state)
@@ -55,14 +57,21 @@ void loop()
     break;
   }
 
-  float angle = pot_angle_read_eng();
+  float angle = pot_angle_sample(10);
   // Serial.print(-0.1);
   // Serial.print(", ");
   // Serial.print(0.3);
   // Serial.print(", ");
+  Serial.print(sample);
+  Serial.print(", ");
+  Serial.print(MOTOR_CONTROLLER_KP);
+  Serial.print(", ");
+  Serial.print(ISR_PERIOD_US);
+  Serial.print(", ");
   Serial.print(get_theta_desired(), 5);
   Serial.print(", ");
   Serial.println(angle, 5);
+  sample++;
 }
 // motor voltage: 0.12200007 | theta: -0.13642
 // motor voltage: 0.11400005 | theta: -0.21910
@@ -72,7 +81,7 @@ void loop()
 // ================== Control ISR ==================
 void interval_control_code(void)
 {
-  float angle = pot_angle_read_eng();
+  float angle = pot_angle_sample(5);
   float theta_desired = get_theta_desired();
   set_motor_voltage_no_stick(motor_controller_theta_to_volt(theta_desired, angle));
 }
