@@ -96,4 +96,119 @@ whether the voltage values were increasing or decreasing:
     v_{increasing} = 0.120 V, v_{decreasing} = 0.101 V
 \end{equation}
 
+\section{Question E}
+The objective of this question is to determine the equation which will convert the desired
+angular position into the necessary voltage that is to be sent to the motor. Said equation
+for a standard DC electric motor is as follows, with the full derivation in Appendix A:
+
+\begin{equation}
+    \frac{\Theta(s)}{V(s)} = \frac{K_{1}}{s(\tau s + 1)}
+    \label{eq:plant_transfer_function}
+\end{equation}
+
+While this is the regular transfer function for all standard DC motors, the constants
+$K_1$ and $\tau$ represent values that are different to each motor, including the
+resistance and inductance of internal components. In order to determine these values,
+the motor must be experimentally characterized. \par
+
+At this point in the project, the system exists in an open-loop state, as can be seen in
+Figure \ref{fig:open_loop}, where the plant equation is the transfer function
+\ref{eq:plant_transfer_function} and the controller is a simple proportional value.
+This system does not include a feedback loop, and therefore
+is not stable enough to be characterized accurately. By providing unity feedback (via
+the potentiometer, to feed back the current angular position of the motor) the
+system becomes closed-loop, as can be seen in Figure \ref{fig:closed_loop}. and
+the system can be characterized.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics{figures/open_loop_system.png}
+    \caption{Open Loop System Block Diagram}
+    \label{fig:open_loop}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics{figures/closed_loop_system.png}
+    \caption{Closed Loop System Block Diagram}
+    \label{fig:closed_loop}
+\end{figure}
+
+Due to the unity feedback, the transfer function changes to the following equation:
+
+\begin{equation}
+    \frac{\Theta(s)}{\Theta_{ref}(s)} = \frac{\frac{K_pK_1}{s(\tau s + 1)}}{1+\frac{K_pK_1}{s(\tau s + 1)}} = \frac{\omega_n^2}{s^2 + 2\zeta \omega_n s + \omega_n^2}
+\end{equation}
+
+The two new unknown values in the above equations, $\omega_n$ and $\zeta$, can be
+determined through the following equations, which are based on the motor response
+when following a target theta value:
+
+\begin{equation}
+    \zeta = \frac{-\ln(\frac{\%OS}{100})}{\sqrt{\pi^2 + (\ln(\frac{\%OS}{100})})^2}
+\end{equation}
+
+where $\%OS$ represents overshoot percentage - the percentage that the motor
+response overshoots the target signal;
+
+\begin{equation}
+    \omega_n = \frac{\pi}{T_p \sqrt{1-\zeta^2}}
+\end{equation}
+
+where $T_p$ represents the peak time - the time the motor response takes
+to reach its peak;
+
+\begin{equation}
+    T_s = \frac{4}{\zeta \omega_n}
+\end{equation}
+
+where $T_s$ represents settling time - the time the motor response takes
+to reach 2\% of the target value. \par
+
+In order to determine the above values experimentally, a step response was
+created, and then input into the closed loop system as the target theta
+value. The error would then be calculated based on the current measured
+theta value and would be fed to the controller. Multiple values for
+the proportional coefficient of the controller were used, all of
+which provided a sufficiently large overshoot to measure; this was done to
+ensure experimental accuracy. The first value found to display a sufficiently
+large overshoot was $K_{p_1} = -26$, and the next two values increased in steps
+of two, for $K_{p_2} = -28$ and $K_{p_3} = -30$\par
+While a larger proportional coefficient value would have resulted in a larger
+overshoot, which would have been easier to study and use in the characterization
+process of the motor, the maximum value that should have been used in this case
+is $K_p = -30$. The lab manual has set two values that must be followed: the
+maximum error for this characterization exercise, which is $0.2 rad$, and the
+maximum allowed voltage to be applied to the motor, which is $6 V$. Since the
+voltage applied to the motor is determined by the controller, which multiplies
+the maximum error by the proportional coefficient, the highest proprotional
+coefficient that would not exceed the maximum voltage is $K_p = -30$. Exceeding
+this limit would lead to saturation of the motor voltage in the code, which would
+result in an inaccurate characterization of the motor. \par
+The values of the step response were sampled at a rate of 2000 times per
+second, or 2 kHz. This value was experimentally determined to
+be the most ideal for the given situation. The clock frequency was analyzed
+and was determined to be 48 MHz; given this value, as well as a rough
+estimate for how much space the step response sampling code would take
+up (roughly 4800 instructions), the ideal sampling rate was determined to
+be 10kHz. The interrupt service routine (ISR), which runs the sampling code, was
+set to run at this frequency. While this initially worked,
+noise from the ADC caused many outliers when measuring
+the motor step response. For this reason, the ADC was to be sampled five times and
+averaged for each value. This required the frequency to be divided by five (due to
+the increased rate of ADC sampling), resulting in a final sampling rate of 2 kHz. \par
+
+
+
+
+\section{Appendices}
+
+\subsection{Appendix A: Standard DC Electric Motor Transfer Function Derivation}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth]{"figures/DC_motor_transfer_function.png"}
+\end{figure}
+
+
+
 \end{document}
