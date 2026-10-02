@@ -6,6 +6,7 @@
 
 #define POS_V_STICTION 0.120f
 #define NEG_V_STICTION -0.101f
+#define THETA_DESIRED_MAX = 0.7f;
 
 static int s_motor_dir_pin;
 static bool s_motor_dir_pin_configured = false;
@@ -72,9 +73,27 @@ void set_motor_voltage_no_stick(float volts)
   }
 }
 
+static float saturate_theta_desired(float theta_desired)
+{
+  if theta_desired
+    > THETA_DESIRED_MAX
+    {
+      return THETA_DESIRED_MAX;
+    }
+  else if theta_desired
+    < -THETA_DESIRED_MAX
+    {
+      return -THETA_DESIRED_MAX;
+    }
+  else
+  {
+    return theta_desired;
+  }
+}
+
 void set_theta_desired(float theta)
 {
-  s_theta_desired.store(theta, std::memory_order_relaxed);
+  s_theta_desired.store(saturate_theta_desired(theta), std::memory_order_relaxed);
 }
 
 float get_theta_desired(void)
