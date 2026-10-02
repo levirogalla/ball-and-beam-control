@@ -72,7 +72,7 @@ void loop()
 // ================== Control ISR ==================
 void interval_control_code(void)
 {
-  float angle = pot_angle_sample(10);
+  float angle = pot_angle_sample(5);
   float theta_desired = get_theta_desired();
   set_motor_voltage_no_stick(motor_controller_theta_to_volt(theta_desired, angle));
 }
