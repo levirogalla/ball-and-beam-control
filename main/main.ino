@@ -17,6 +17,7 @@ typedef enum
 {
   APP_STATE_CALCULATE_OVERSHOOT,
   APP_STATE_CALCULATE_STICKTION,
+  APP_STATE_SINE_WAVE,
 } AppState;
 
 static AppState s_app_state;
@@ -41,7 +42,7 @@ void setup()
   motor_init();
   set_control_interval_us(ISR_PERIOD_US); // 2 kHz
 
-  s_app_state = APP_STATE_CALCULATE_OVERSHOOT;
+  s_app_state = APP_STATE_SINE_WAVE;
   logging_start_us = micros();
   Serial.println("initialization complete!");
 }
@@ -58,22 +59,25 @@ void loop()
   case APP_STATE_CALCULATE_STICKTION:
     calculate_stiction();
     break;
+  case APP_STATE_SINE_WAVE:
+    calculate_sine_wave(8000);
+    break;
   }
 
   float angle = pot_angle_read_eng();
-  uint32_t elapsed_us = micros() - logging_start_us;
+  // uint32_t elapsed_us = micros() - logging_start_us;
   // Serial.print(-0.1);
   // Serial.print(", ");
   // Serial.print(0.3);
   // Serial.print(", ");
-  Serial.print(sample);
-  Serial.print(", ");
-  Serial.print(elapsed_us / 1000000.0f, 6);
-  Serial.print(", ");
-  Serial.print(MOTOR_CONTROLLER_KP);
-  Serial.print(", ");
-  Serial.print(ISR_PERIOD_US);
-  Serial.print(", ");
+  // Serial.print(sample);
+  // Serial.print(", ");
+  // Serial.print(elapsed_us / 1000000.0f, 6);
+  // Serial.print(", ");
+  // Serial.print(MOTOR_CONTROLLER_KP);
+  // Serial.print(", ");
+  // Serial.print(ISR_PERIOD_US);
+  // Serial.print(", ");
   Serial.print(get_theta_desired(), 5);
   Serial.print(", ");
   Serial.println(angle, 5);
@@ -89,6 +93,6 @@ void interval_control_code(void)
 {
   pot_angle_populate();
   float angle = pot_angle_read_eng();
-  float theta_desired = get_theta_desired();
+  float theta_desired = get_theta_desired_saturated();
   set_motor_voltage_no_stick(motor_controller_theta_to_volt(theta_desired, angle));
 }

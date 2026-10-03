@@ -13,6 +13,10 @@ void set_theta_desired(float theta);
 
 float get_theta_desired(void);
 
+float get_theta_desired_saturated(void);
+
 void calculate_overshoot(uint32_t period_ms);
+
+void calculate_sine_wave(uint32_t period_ms);
 
 #endif
