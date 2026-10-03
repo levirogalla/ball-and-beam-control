@@ -138,6 +138,7 @@ Due to the unity feedback, the transfer function changes to the following equati
 
 \begin{equation}
     \frac{\Theta(s)}{\Theta_{ref}(s)} = \frac{\frac{K_pK_1}{s(\tau s + 1)}}{1+\frac{K_pK_1}{s(\tau s + 1)}} = \frac{\omega_n^2}{s^2 + 2\zeta \omega_n s + \omega_n^2}
+    \label{eq:second_order_transfer_function}
 \end{equation}
 
 The two new unknown values in the above equations, $\omega_n$ and $\zeta$, can be
@@ -146,6 +147,7 @@ when following a target theta value:
 
 \begin{equation}
     \zeta = \frac{-\ln(\frac{\%OS}{100})}{\sqrt{\pi^2 + (\ln(\frac{\%OS}{100})})^2}
+    \label{eq:zeta_formula}
 \end{equation}
 
 where $\%OS$ represents overshoot percentage - the percentage that the motor
@@ -153,6 +155,7 @@ response overshoots the target signal;
 
 \begin{equation}
     \omega_n = \frac{\pi}{T_p \sqrt{1-\zeta^2}}
+    \label{eq:omega_n_formula}
 \end{equation}
 
 where $T_p$ represents the peak time - the time the motor response takes
@@ -197,7 +200,77 @@ noise from the ADC caused many outliers when measuring
 the motor step response. For this reason, the ADC was to be sampled five times and
 averaged for each value. This required the frequency to be divided by five (due to
 the increased rate of ADC sampling), resulting in a final sampling rate of 2 kHz. \par
+The graphs for the step response of the motor can be seen below, in figures
+\ref{fig:motor_response_k_25}, \ref{fig:motor_response_k_28}, and
+\ref{fig:motor_response_k_30}.
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/chart_Motor Step Response (k=-25).png}
+    \caption{Motor response to step input when $K_p = -25$}
+    \label{fig:motor_response_k_25}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/chart_Motor Step Response (k=-28).png}
+    \caption{Motor response to step input when $K_p = -28$}
+    \label{fig:motor_response_k_28}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/chart_Motor Step Response (k=-30).png}
+    \caption{Motor response to step input when $K_p = -30$}
+    \label{fig:motor_response_k_30}
+\end{figure}
+
+From these graphs, the overshoot percentage and peak time values were determined to be as followed:
+
+\begin{equation}
+    \%OS_{k=-25} = 12.415\%, T_{p_{k=-25}} = 0.083069s
+\end{equation}
+\begin{equation}
+    \%OS_{k=-28} = 15.47\%, T_{p_{k=-28}} = 0.06758s
+\end{equation}
+\begin{equation}
+    \%OS_{k=-30} = 16.01\%, T_{p_{k=-30}} = 0.066472s
+\end{equation}
+
+Using the formulas \ref{eq:zeta_formula} and subsequently \ref{eq:omega_n_formula},
+the following values were able to be formulated:
+
+\begin{equation}
+    \zeta_{k=-25} = 0.5532, \omega_{n_{k=-25}} = 45.3987 \text{ rad/s}
+\end{equation}
+
+\begin{equation}
+    \zeta_{k=-28} = 0.5107, \omega_{n_{k=-28}} = 54.0710 \text{ rad/s}
+\end{equation}
+
+\begin{equation}
+    \zeta_{k=-30} = 0.5037, \omega_{n_{k=-30}} = 54.7104 \text{ rad/s}
+\end{equation}
+
+Substituting the above values into formula \ref{eq:second_order_transfer_function} gives
+the following $K_1$ and $\tau$ values for each $K_p$:
+
+\begin{equation}
+    K_{1_{k=-25}} = -1.6413, \quad \tau_{k=-25} = 0.019909s
+\end{equation}
+
+\begin{equation}
+    K_{1_{k=-28}} = -1.8906, \quad \tau_{k=-28} = 0.018107s
+\end{equation}
+
+\begin{equation}
+    K_{1_{k=-30}} = -1.8103, \quad \tau_{k=-30} = 0.018144s
+\end{equation}
+
+The values for $K_1$ and $\tau$ all fall within the ranges prescribed by the lab manual;
+with the motor constants properly defined, the motor has successfully been characterized.
+
+\section{Question F}
 
 
 
@@ -207,6 +280,8 @@ the increased rate of ADC sampling), resulting in a final sampling rate of 2 kHz
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.7\textwidth]{"figures/DC_motor_transfer_function.png"}
+    \caption{Standard DC Electric Motor Transfer Function Derivation}
+    \label{motor_transfer_function_derivation}
 \end{figure}
 
 
