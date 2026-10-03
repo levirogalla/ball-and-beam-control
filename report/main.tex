@@ -272,11 +272,33 @@ with the motor constants properly defined, the motor has successfully been chara
 
 \section{Question F}
 
+Choosing $K_p = -28$ as an arbitrary selection, as well as its associated
+$K_1$ and $\tau$ values, the closed loop system used to characterize
+the motor was modelled in Simulink software. This was done to ensure that
+the characterization was done correctly, as accurate values for $K_1$ and $\tau$
+would show a motor response which correctly follows $\theta_{desired}$. \par
+A saturator function was also added to the modelled system in order to
+keep $\theta_{desired}$ within a given range, as in the future lab sessions,
+the beam will be attached to the motor, and moving outside of the range
+may result in property damage. This saturator was also tested in the modelled
+system. \par
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/simulink_model_closed_loop.png}
+    \caption{Closed-loop system modelled in Simulink software}
+    \label{fig:simulink_model}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/simulink_model_closed_loop_output.png}
+    \caption{Closed-loop system model output; the blue line represents $\theta_{desired}$ and the yellow line represents $\theta$}
+    \label{fig:simulink_model_output}
+\end{figure}
 
 
-
-The code for the target angular position saturator was quite straightforward, and as a
-result, the saturation test results appear exactly as intended, with the angular position
+The code implementation for the target angular position saturator was quite straightforward. The saturation test results appear exactly as intended, with the angular position
 of the motor staying within 0.7 and -0.7, regardless of the value of the
 target theta value.
 
