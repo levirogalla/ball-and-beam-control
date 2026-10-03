@@ -20,6 +20,7 @@ typedef enum
 } AppState;
 
 static AppState s_app_state;
+uint32_t logging_start_us;
 
 void calculate_stiction(void);
 
@@ -41,6 +42,7 @@ void setup()
   set_control_interval_us(ISR_PERIOD_US); // 2 kHz
 
   s_app_state = APP_STATE_CALCULATE_OVERSHOOT;
+  logging_start_us = micros();
   Serial.println("initialization complete!");
 }
 
@@ -59,11 +61,14 @@ void loop()
   }
 
   float angle = pot_angle_read_eng();
+  uint32_t elapsed_us = micros() - logging_start_us;
   // Serial.print(-0.1);
   // Serial.print(", ");
   // Serial.print(0.3);
   // Serial.print(", ");
   Serial.print(sample);
+  Serial.print(", ");
+  Serial.print(elapsed_us / 1000000.0f, 6);
   Serial.print(", ");
   Serial.print(MOTOR_CONTROLLER_KP);
   Serial.print(", ");
