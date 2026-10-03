@@ -274,6 +274,20 @@ with the motor constants properly defined, the motor has successfully been chara
 
 
 
+
+The code for the target angular position saturator was quite straightforward, and as a
+result, the saturation test results appear exactly as intended, with the angular position
+of the motor staying within 0.7 and -0.7, regardless of the value of the
+target theta value.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/Theta Saturation Test.png}
+    \caption{Theta Saturation Test}
+    \label{fig:theta_saturation_test}
+\end{figure}
+
+
 \section{Appendices}
 
 \subsection{Appendix A: Standard DC Electric Motor Transfer Function Derivation}
