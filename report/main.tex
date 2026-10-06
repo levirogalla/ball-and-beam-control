@@ -92,6 +92,7 @@ into the system of equations, and solving for this provided values for $m$ and $
 \end{equation}
 
 \section{Question D}
+\label{sec:question_d}
 The term 'stiction' describes the concept of static friction that exists in motors before
 they start moving. This creates a range of voltage values that, when sent to the
 motor, will not move the motor at all. This impacts the accuracy of the mechanism,
@@ -240,7 +241,20 @@ The graphs for the step response of the motor can be seen below, in figures
     \label{fig:motor_response_k_30}
 \end{figure}
 
-From these graphs, the overshoot percentage and peak time values were determined to be as followed:
+The above graphs, which show the motor response to the step input, prove
+that the stiction values selected in section \ref{sec:question_d} are adequate.
+If the stiction value were too low, flat zones in the initial overshoot peak would be
+present. This is because a deadzone range which is too small would result in
+certain voltage values that are too small to overcome the motor's static friction, resulting
+in flat zones in motor response peaks. If the deadzone range was too large, there would be
+higher steady-state error as well as more oscillations than necessary to reach the steady-state.
+This is due to the precision that is lost when dealing with larger deadzones; the motor controller
+is no longer able to make precise movements when the error is low, resulting in oscillations and
+steady-state error. As can be seen in the graphs, there is neither flat zones nor steady-state error,
+proving the stiction values are adequate. \par
+
+
+From the above graphs, the overshoot percentage and peak time values were determined to be as followed:
 
 \begin{equation}
     \%OS_{k=-25} = 12.415\%, T_{p_{k=-25}} = 0.083069s
@@ -408,8 +422,5 @@ target theta value.
     breaklines=true,
     frame=single
 ]{../main/src/geeWhiz/geeWhiz.cpp}
-
-
-
 
 \end{document}
