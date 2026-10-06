@@ -6,6 +6,12 @@
 \usepackage{amsmath, amssymb, amsthm}
 \usepackage{graphicx}
 \usepackage{hyperref}
+\usepackage{listings}                   % for showing code
+\usepackage{xcolor}                     % for showing custom colours in code
+\usepackage{float}                      % for adding [H] to figures, making them stay in place
+
+% Custom colours for code files
+\definecolor{background}{RGB}{245, 245, 245} % Light grey background
 
 \begin{document}
 
@@ -14,7 +20,7 @@
     \centering
     \vspace*{0.5in}
 
-    \begin{figure}[htbp]
+    \begin{figure}[H]
         \centering
         \includegraphics[width=0.3\textwidth]{"figures/University_of_Waterloo_seal.png"}
     \end{figure}
@@ -45,6 +51,15 @@
 
     \vspace*{0.5in}
 \end{titlepage}
+
+\clearpage
+\thispagestyle{empty}
+\begin{center}
+    \vspace*{\fill}
+    \includegraphics[width=\textwidth,height=0.9\textheight,keepaspectratio]{figures/declaration.png}
+    \vspace*{\fill}
+\end{center}
+\clearpage
 
 
 \section{Introduction}
@@ -120,14 +135,14 @@ the potentiometer, to feed back the current angular position of the motor) the
 system becomes closed-loop, as can be seen in Figure \ref{fig:closed_loop}. and
 the system can be characterized.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \includegraphics{figures/open_loop_system.png}
     \caption{Open Loop System Block Diagram}
     \label{fig:open_loop}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \includegraphics{figures/closed_loop_system.png}
     \caption{Closed Loop System Block Diagram}
@@ -204,21 +219,21 @@ The graphs for the step response of the motor can be seen below, in figures
 \ref{fig:motor_response_k_25}, \ref{fig:motor_response_k_28}, and
 \ref{fig:motor_response_k_30}.
 
-\begin{figure}
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{figures/chart_Motor Step Response (k=-25).png}
     \caption{Motor response to step input when $K_p = -25$}
     \label{fig:motor_response_k_25}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{figures/chart_Motor Step Response (k=-28).png}
     \caption{Motor response to step input when $K_p = -28$}
     \label{fig:motor_response_k_28}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{figures/chart_Motor Step Response (k=-30).png}
     \caption{Motor response to step input when $K_p = -30$}
@@ -283,14 +298,14 @@ the beam will be attached to the motor, and moving outside of the range
 may result in property damage. This saturator was also tested in the modelled
 system. \par
 
-\begin{figure}
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{figures/simulink_model_closed_loop.png}
     \caption{Closed-loop system modelled in Simulink software}
     \label{fig:simulink_model}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{figures/simulink_model_closed_loop_output.png}
     \caption{Closed-loop system model output; the blue line represents $\theta_{desired}$ and the yellow line represents $\theta$}
@@ -302,7 +317,7 @@ The code implementation for the target angular position saturator was quite stra
 of the motor staying within 0.7 and -0.7, regardless of the value of the
 target theta value.
 
-\begin{figure}
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{figures/Theta Saturation Test.png}
     \caption{Theta Saturation Test}
@@ -313,12 +328,87 @@ target theta value.
 \section{Appendices}
 
 \subsection{Appendix A: Standard DC Electric Motor Transfer Function Derivation}
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{"figures/DC_motor_transfer_function.png"}
     \caption{Standard DC Electric Motor Transfer Function Derivation}
     \label{motor_transfer_function_derivation}
 \end{figure}
+
+\subsection{Appendix B: Code}
+
+\lstinputlisting[
+    language=C++,
+    caption={main.ino},
+    backgroundcolor=\color{background},
+    breaklines=true,
+    frame=single
+]{../main/main.ino}
+
+\lstinputlisting[
+    language=C++,
+    caption={motor.h},
+    backgroundcolor=\color{background},
+    breaklines=true,
+    frame=single
+]{../main/src/motor.h}
+
+\lstinputlisting[
+    language=C++,
+    caption={motor.cpp},
+    backgroundcolor=\color{background},
+    breaklines=true,
+    frame=single
+]{../main/src/motor.cpp}
+
+\lstinputlisting[
+    language=C++,
+    caption={position.h},
+    backgroundcolor=\color{background},
+    breaklines=true,
+    frame=single
+]{../main/src/position.h}
+
+\lstinputlisting[
+    language=C++,
+    caption={position.cpp},
+    backgroundcolor=\color{background},
+    breaklines=true,
+    frame=single
+]{../main/src/position.cpp}
+
+\lstinputlisting[
+    language=C++,
+    caption={transfer.h},
+    backgroundcolor=\color{background},
+    breaklines=true,
+    frame=single
+]{../main/src/transfer.h}
+
+\lstinputlisting[
+    language=C++,
+    caption={transfer.cpp},
+    backgroundcolor=\color{background},
+    breaklines=true,
+    frame=single
+]{../main/src/transfer.cpp}
+
+\lstinputlisting[
+    language=C++,
+    caption={geeWhiz.h},
+    backgroundcolor=\color{background},
+    breaklines=true,
+    frame=single
+]{../main/src/geeWhiz/geeWhiz.h}
+
+\lstinputlisting[
+    language=C++,
+    caption={geeWhiz.cpp},
+    backgroundcolor=\color{background},
+    breaklines=true,
+    frame=single
+]{../main/src/geeWhiz/geeWhiz.cpp}
+
 
 
 
