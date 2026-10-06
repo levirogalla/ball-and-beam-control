@@ -83,9 +83,12 @@ to be useful. The motor position sensor values could be linearized and converted
 Where the $m$ and $b$ values must be determined through a system of equations, using
 experimental values of $p_{rad}$ and $p_{sensor}$ to do so. \par
 The position of the motor was manually changed to three points: $0$, $\frac{\pi}{4}$,
-and $-\frac{\pi}{4}$ radians (only two data points are needed but the thirds helps to verify the calculation are correct). The values printed into the serial monitor were read at each
-point, providing concrete values of $p_{rad}$ and $p_{sensor}$. These values were put
-into the system of equations, and solving for this provided values for $m$ and $b$:
+and $-\frac{\pi}{4}$ radians. Two points are sufficient to determine a linear
+relationship, while the third point provides a check on the result. The values
+printed into the serial monitor were read at each point, providing values of
+$p_{rad}$ in radians and $p_{sensor}$ in ADC counts. The two measurements used
+to calculate the line were $p_{sensor}=4890.47$ at $p_{rad}=0$ rad and
+$p_{sensor}=7075.45$ at $p_{rad}=-\frac{\pi}{4}$ rad:
 
 \begin{equation}
     \begin{bmatrix}
@@ -105,8 +108,15 @@ into the system of equations, and solving for this provided values for $m$ and $
 
 
 \begin{equation}
-    m = -0.000359453251, b = 1.75789534
+    m = -0.000359453251 \ \mathrm{rad/count}, \qquad
+    b = 1.75789534 \ \mathrm{rad}
 \end{equation}
+
+The resulting scaling was implemented in software as
+\[
+    \theta = -0.000359453251\,p_{sensor}+1.75789534.
+\]
+The third measured angle was used as a consistency check.
 
 \section{Question D}
 \label{sec:question_d}
@@ -122,8 +132,13 @@ motors is not often symmetrical. In order to complete this task, the team create
 \par The values for stiction have been determined for both directions, differentiated by
 whether the voltage values were increasing or decreasing:
 \begin{equation}
-    v_{increasing} = 0.120 V, v_{decreasing} = 0.101 V
+    v_{+} = +0.120\ \mathrm{V}, \qquad v_{-} = -0.101\ \mathrm{V}
 \end{equation}
+
+Here, $v_{+}$ is the offset applied when the controller requests a positive
+voltage and $v_{-}$ is the offset applied when it requests a negative voltage.
+These signs match the implementation in
+\texttt{set\_motor\_voltage\_no\_stick()}.
 
 \section{Question E}
 The objective of this question is to determine the equation which will convert the desired
@@ -135,7 +150,7 @@ for a standard DC electric motor is as follows, with the full derivation in Appe
     \label{eq:plant_transfer_function}
 \end{equation}
 
-While this is the regular transfer function for all standard DC motors, the constants
+This is a standard position-transfer-function model for a DC motor. The constants
 $K_1$ and $\tau$ represent values that are different to each motor, including the
 resistance and inductance of internal components. In order to determine these values,
 the motor must be experimentally characterized. \par
@@ -175,7 +190,8 @@ determined through the following equations, which are based on the motor respons
 when following a target theta value:
 
 \begin{equation}
-    \zeta = \frac{-\ln(\frac{\%OS}{100})}{\sqrt{\pi^2 + (\ln(\frac{\%OS}{100})})^2}
+    \zeta = \frac{-\ln(\%OS/100)}
+    {\sqrt{\pi^2+\left[\ln(\%OS/100)\right]^2}}
     \label{eq:zeta_formula}
 \end{equation}
 
@@ -204,25 +220,24 @@ theta value and would be fed to the controller. Multiple values for
 the proportional coefficient of the controller were used, all of
 which provided a sufficiently large overshoot to measure; this was done to
 ensure experimental accuracy. The first value found to display a sufficiently
-large overshoot was $K_{p_1} = -25$, then also for $K_{p_2} = -28$ and $K_{p_3} = -30$\par
+large overshoot was $K_{p_1} = -25$, followed by $K_{p_2} = -28$ and
+$K_{p_3} = -30$.\par
 While a larger proportional coefficient value would have resulted in a larger
 overshoot, which would have been easier to study and use in the characterization
 process of the motor, the maximum value that should have been used in this case
 is $K_p = -30$. The lab manual has set two values that must be followed: the
-maximum error for this characterization exercise, which is $0.2 rad$, and the
-maximum allowed voltage to be applied to the motor, which is $6 V$. Since the
+maximum error for this characterization exercise, which is $0.2$ rad, and the
+maximum allowed voltage to be applied to the motor, which is $6$ V. Since the
 voltage applied to the motor is determined by the controller, which multiplies
-the maximum error by the proportional coefficient, the highest proprotional
-coefficient that would not exceed the maximum voltage is $K_p = -30$. Exceeding
+the maximum error by the proportional coefficient, the largest proportional gain
+magnitude that would not exceed the maximum voltage is $K_p = -30$. Exceeding
 this limit would lead to saturation of the motor voltage in the code, which would
 result in an inaccurate characterization of the motor. \par
 The values of the step response were sampled at a rate of 2000 times per
 second, or 2 kHz. This value was experimentally determined to
-be the most ideal for the given situation. The clock of the Arduino R4 Minima runs at 48 MHz; given this value, as well as a rough
-estimate for how much space the step response sampling code would take
-up (roughly 4800 instructions), the ideal sampling rate was determined to
-be 10kHz. The interrupt service routine (ISR), which runs the sampling code, was
-set to run at this frequency. While this initially worked,
+be the most ideal for the given situation. The clock of the Arduino R4 Minima runs at 48 MHz, and the ISR was expected to run within 4800 instructions.
+Given these values, the ideal sampling rate was determined to
+be 10kHz. While this sampling rate initially worked,
 noise from the ADC caused many outliers when measuring
 the motor step response. For this reason, the ADC was to be sampled five times and
 averaged for each reading. This required the frequency to be divided by five (due to
@@ -292,19 +307,36 @@ the following values were able to be formulated:
     \zeta_{k=-30} = 0.5037, \omega_{n_{k=-30}} = 54.7104 \text{ rad/s}
 \end{equation}
 
-Substituting the above values into formula \ref{eq:second_order_transfer_function} gives
-the following $K_1$ and $\tau$ values for each $K_p$:
+Comparing the normalized closed-loop denominator with the standard
+second-order form gives
+\[
+    \tau = \frac{1}{2\zeta\omega_n}, \qquad
+    K_1 = \frac{\omega_n^2\tau}{K_p}
+    = \frac{\omega_n}{2\zeta K_p}.
+\]
+For example, using $K_p=-25$, $\zeta=0.5532$, and
+$\omega_n=45.3987\ \mathrm{rad/s}$ gives
+\[
+    \tau = \frac{1}{2(0.5532)(45.3987)}
+    = 0.019909\ \mathrm{s}, \qquad
+    K_1 = \frac{45.3987}{2(0.5532)(-25)}
+    = -1.6413\ \mathrm{rad/(V\,s)}.
+\]
+Applying the same calculation to the other two data sets gives:
 
 \begin{equation}
-    K_{1_{k=-25}} = -1.6413, \quad \tau_{k=-25} = 0.019909s
+    K_{1_{k=-25}} = -1.6413\ \mathrm{rad/(V\,s)}, \quad
+    \tau_{k=-25} = 0.019909\ \mathrm{s}
 \end{equation}
 
 \begin{equation}
-    K_{1_{k=-28}} = -1.8906, \quad \tau_{k=-28} = 0.018107s
+    K_{1_{k=-28}} = -1.8906\ \mathrm{rad/(V\,s)}, \quad
+    \tau_{k=-28} = 0.018107\ \mathrm{s}
 \end{equation}
 
 \begin{equation}
-    K_{1_{k=-30}} = -1.8103, \quad \tau_{k=-30} = 0.018144s
+    K_{1_{k=-30}} = -1.8103\ \mathrm{rad/(V\,s)}, \quad
+    \tau_{k=-30} = 0.018144\ \mathrm{s}
 \end{equation}
 
 The values for $K_1$ and $\tau$ all fall within the ranges prescribed by the lab manual;
@@ -338,9 +370,13 @@ system. \par
 \end{figure}
 
 
-The code implementation for the target angular position saturator was quite straightforward. The saturation test results appear exactly as intended, with the angular position
-of the motor staying within 0.7 and -0.7, regardless of the value of the
-target theta value.
+The code implementation for the target angular position saturator was
+straightforward. The experimental saturation test applied both positive and
+negative reference angles. The measured saturated reference remained within
+$-0.7$ and $+0.7$ rad, regardless of the unsaturated target value, as shown
+in Figure \ref{fig:theta_saturation_test}. The plot includes the
+unsaturated reference and the saturated reference so that the limiting action
+can be verified directly.
 
 \begin{figure}[H]
     \centering
@@ -348,6 +384,34 @@ target theta value.
     \caption{Theta Saturation Test}
     \label{fig:theta_saturation_test}
 \end{figure}
+
+\section{Question G}
+Figure \ref{fig:inner_loop_diagram} shows the inner loop at the end of
+Lab 1. The diagram includes the reference saturation, proportional
+controller, stiction compensation, motor-voltage saturation, PWM and
+direction output, motor and gear apparatus, potentiometer, ADC averaging,
+and sensor scaling. Software signals are shown separately from the physical
+analog signals. The motor, gear, and potentiometer are identified as parts of
+the apparatus. The controller runs every $500\ \mu\mathrm{s}$ (2 kHz).
+
+\clearpage
+\begin{figure}[H]
+    \centering
+    \includegraphics[
+        width=\textwidth,
+        height=0.78\textheight,
+        keepaspectratio
+    ]{figures/block_diagram.png}
+    \caption{Inner-loop block diagram at the end of Lab 1.}
+    \label{fig:inner_loop_diagram}
+\end{figure}
+
+\clearpage
+\section*{References}
+\begin{enumerate}
+    \item S. Livera, \emph{MTE 484: Digital Control Systems --- Lab 1:
+              Modelling of the Motor System}, Fall 2026.
+\end{enumerate}
 
 
 \section{Appendices}
