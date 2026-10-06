@@ -26,7 +26,6 @@ void set_control_interval_us(uint32_t interval_us)
     interval_us = 1000;
   const float freq_hz = 1000000.0f / interval_us;
 
-  // Use a GPT timer (don’t touch AGT: it’s used by Arduino timebase)
   uint8_t timer_type = GPT_TIMER;
   int8_t tindex = FspTimer::get_available_timer(timer_type); // prefer non-PWM GPT
 
