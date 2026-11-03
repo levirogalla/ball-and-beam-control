@@ -44,7 +44,7 @@ int motor_init()
   return 0;
 }
 
-static void set_motor_voltage(float volts)
+static void motor_voltage_set(float volts)
 {
   if (volts > VMAX)
     volts = VMAX;
@@ -59,23 +59,23 @@ static void set_motor_voltage(float volts)
   s_motor_pwm.pulse_perc(duty);
 }
 
-void set_motor_voltage_no_stick(float volts)
+void motor_voltage_no_stick_set(float volts)
 {
   if (volts > 0.0f)
   {
-    set_motor_voltage(volts + POS_V_STICTION);
+    motor_voltage_set(volts + POS_V_STICTION);
   }
   else if (volts < 0.0f)
   {
-    set_motor_voltage(volts + NEG_V_STICTION);
+    motor_voltage_set(volts + NEG_V_STICTION);
   }
   else
   {
-    set_motor_voltage(0);
+    motor_voltage_set(0);
   }
 }
 
-static float saturate_theta_desired(float theta_desired)
+static float theta_desired_saturate(float theta_desired)
 {
   if (theta_desired > THETA_DESIRED_MAX)
   {
@@ -91,19 +91,19 @@ static float saturate_theta_desired(float theta_desired)
   }
 }
 
-void set_theta_desired(float theta)
+void theta_desired_set(float theta)
 {
   s_theta_desired.store(theta, std::memory_order_relaxed);
 }
 
-float get_theta_desired(void)
+float theta_desired_get(void)
 {
   return s_theta_desired.load(std::memory_order_relaxed);
 }
 
-float get_theta_desired_saturated(void)
+float theta_desired_saturated_get(void)
 {
-  return saturate_theta_desired(get_theta_desired());
+  return theta_desired_saturate(theta_desired_get());
 }
 
 void calculate_overshoot(uint32_t period_ms)
@@ -121,21 +121,21 @@ void calculate_overshoot(uint32_t period_ms)
   }
 
   float theta_target = state ? theta1 : theta0;
-  set_theta_desired(theta_target);
+  theta_desired_set(theta_target);
 }
 
 void calculate_sine_wave(uint32_t period_ms)
 {
   if (period_ms == 0)
   {
-    set_theta_desired(0.0f);
+    theta_desired_set(0.0f);
     return;
   }
 
   float cycle_fraction = static_cast<float>(millis() % period_ms) /
                          static_cast<float>(period_ms);
   float phase = 2.0f * PI * cycle_fraction;
-  set_theta_desired(THETA_SWEEP_AMPLITUDE * sinf(phase));
+  theta_desired_set(THETA_SWEEP_AMPLITUDE * sinf(phase));
 }
 
 /// @brief Calculate and print stiction of motor, disables interrupts
@@ -148,7 +148,7 @@ void calculate_stiction(void)
   float motor_voltage = 0.0;
   while (abs(theta - initial_theta) < 0.06)
   {
-    set_motor_voltage(motor_voltage);
+    motor_voltage_set(motor_voltage);
     delay(200);
     pot_angle_populate();
     theta = pot_angle_read_eng();
@@ -160,7 +160,7 @@ void calculate_stiction(void)
 
     motor_voltage -= 0.001;
   }
-  set_motor_voltage(0.0);
+  motor_voltage_set(0.0);
   Serial.println("stiction calculation complete... delaying for 10 seconds");
   delay(1000 * 10);
   interrupts();

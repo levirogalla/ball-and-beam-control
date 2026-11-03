@@ -78,7 +78,7 @@ void loop()
   // Serial.print(", ");
   // Serial.print(ISR_PERIOD_US);
   // Serial.print(", ");
-  Serial.print(get_theta_desired(), 5);
+  Serial.print(theta_desired_get(), 5);
   Serial.print(", ");
   Serial.println(angle, 5);
   sample++;
@@ -93,6 +93,6 @@ void interval_control_code(void)
 {
   pot_angle_populate();
   float angle = pot_angle_read_eng();
-  float theta_desired = get_theta_desired_saturated();
-  set_motor_voltage_no_stick(motor_controller_theta_to_volt(theta_desired, angle));
+  float theta_desired = theta_desired_saturated_get();
+  motor_voltage_no_stick_set(motor_controller_theta_to_volt(theta_desired, angle));
 }

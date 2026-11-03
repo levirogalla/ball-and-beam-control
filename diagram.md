@@ -1,11 +1,11 @@
 ```mermaid
 flowchart TB
     REF["Reference in loop()<br/>calculate_sine_wave(8000)<br/>theta_desired: ±2 rad"]
-    LIMIT["Saturate theta_desired<br/>get_theta_desired_saturated()<br/>theta_desired,sat: ±0.7 rad"]
+    LIMIT["Saturate theta_desired<br/>theta_desired_saturated_get()<br/>theta_desired,sat: ±0.7 rad"]
     SUM(("Σ<br/>error = theta_desired,sat - angle"))
     P["P controller<br/>motor_controller_theta_to_volt()<br/>Vctrl = MOTOR_CONTROLLER_KP · error<br/>error [rad], Vctrl [V]"]
-    STICK["Stiction compensation<br/>set_motor_voltage_no_stick()<br/>Vctrl > 0: +0.120 V<br/>Vctrl < 0: -0.101 V"]
-    VOLT["Voltage saturation<br/>set_motor_voltage()<br/>-6 V <= Vmotor <= 6 V"]
+    STICK["Stiction compensation<br/>motor_voltage_no_stick_set()<br/>Vctrl > 0: +0.120 V<br/>Vctrl < 0: -0.101 V"]
+    VOLT["Voltage saturation<br/>motor_voltage_set()<br/>-6 V <= Vmotor <= 6 V"]
     DRIVE["Motor drive<br/>PWM: 24 kHz, duty = |Vmotor| / 6 · 100%<br/>direction: DIR_PIN D8"]
 
     MOTOR["APPARATUS: motor + gear<br/>physical plant<br/>output: theta [rad]"]
