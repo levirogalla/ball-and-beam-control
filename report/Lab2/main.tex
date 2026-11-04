@@ -1,0 +1,420 @@
+\documentclass[11pt, letterpaper]{article}
+
+% --- Essential Packages ---
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb, amsthm}  % amsmath for matrices and vectors
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}                   % for showing code
+\usepackage{xcolor}                     % for showing custom colours in code
+\usepackage{float}                      % for adding [H] to figures, making them stay in place
+
+% Custom colours for code files
+\definecolor{background}{RGB}{245, 245, 245} % Light grey background
+
+\begin{document}
+
+% --- Custom Single Title Page ---
+\begin{titlepage}
+    \centering
+    \vspace*{0.5in}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.3\textwidth]{"figures/University_of_Waterloo_seal.png"}
+    \end{figure}
+
+    \vspace{1.5cm}
+
+    % Custom Title & Subtitle
+    {\Huge \bfseries Lab 2: Controller Design \par}
+
+    \vspace{0.5cm}
+    {\Large MTE 484: Digital Control Systems \par}
+    \vspace{0.1cm}
+    {\Large Instructor Sergio Livera \par}
+    \vspace{0.5cm}
+    {\large Department of Mechatronics and Mechanical Engineering \par}
+
+
+
+    \vfill % Automatically fills vertical space, pushing author/date to the bottom
+
+    % Custom Author Info
+    {\Large \textbf{Levi Rogalla} \par}
+    {\Large \textbf{Alex Veric} \par}
+
+    \vspace{1.5cm}
+
+    {\large \today \par}
+
+    \vspace*{0.5in}
+\end{titlepage}
+
+\clearpage
+\thispagestyle{empty}
+\begin{center}
+    \vspace*{\fill}
+    \includegraphics[width=\textwidth,height=0.9\textheight,keepaspectratio]{figures/declaration.png}
+    \vspace*{\fill}
+\end{center}
+\clearpage
+
+
+\section{Question A}
+The controller must be designed in a way that allows the closed loop system to
+display the time-domain characteristics required, which are as follows: the
+step response steady-state tracking error is zero; he step response 2\%
+settling time is no more than 0.25 seconds; the step response overshoot is no
+more than 5\%; and the motor voltage does not exceed more than 6V in either
+direction. \par
+The first requirement is already accounted for due to the nature of our plant.
+According to Internal Model Principle, in order for a closed loop system to have
+perfect error tracking, either the plant or the controller must contain a model
+of the reference signal, in the LaPlace domain. In this situation, the
+given reference signal is a step input, which in the LaPlace domain is represented
+by $\frac{1}{s}$. The plant being used has already been characterized in the previous
+lab, and as can be seen in the following equation, already contains a model of the step
+input. Hence, it is not necessary to consider this in the controller design.
+
+\begin{equation}
+    P(s) = \frac{K_1}{s(\tau s + 1)}
+\end{equation}
+
+Where $K_1 = -1.8906$ and $\tau = 0.018107$.\par
+
+The second two requirements, which regard the 2\% settling time and the overshoot percentage,
+must be considered in the design of the controller. These values can be related to the poles
+of the closed loop system through the following sets of equations, which will determine the
+desired characteristic polynomial; using this information, as well as the previously derived
+plant model, the controller can be determined. The following equation shows the relation between the overshoot
+percentage and the damping ratio, $\zeta$.
+
+\begin{equation}
+    \zeta = - \frac{ln (OS\%)}{\sqrt{\pi^2 + [ln(OS\%)]}}
+\end{equation}
+
+The following equation shows the relation between the 2\% settling time, the damping ratio, $\zeta$,
+and the natural frequency, $\omega_n$.
+
+\begin{equation}
+    \omega_n = \frac{4}{\zeta T_{s_{2\%}}}
+\end{equation}
+
+The following equation is the characteristic polynomial of a second order, closed-loop system,
+in terms of the damping ratio, $\zeta$, and the natural frequency, $\omega_n$.
+
+\begin{equation}
+    \pi(s) = s^2 + 2\zeta \omega_n s + \omega_n
+\end{equation}
+
+Substituting $T_{s_{2\%}} = 0.25s$ and $OS\% = 0.05$ into the above equations give the following
+values for the damping ratio, $\zeta$ and the natural frequency, $\omega_n$.
+
+\begin{equation}
+    \zeta = 0.690, \omega_n = 23.185 [\frac{1}{sec}]
+\end{equation}
+
+Substituting these values into the characteristic polynomial gives the following equation:
+
+\begin{equation}
+    \pi(s) = s^2 + 31.995s + 537.542
+\end{equation}
+
+Using the quadratic formula, as shown below, gives the conjugate pole pair that is required
+in the closed-loop system to have the required time-domain characteristics:
+
+\begin{equation}
+    \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+\end{equation}
+
+Where $a = 1$, $b = 31.995$, $c = 537.542$:
+
+\begin{equation}
+    s_{1,2} = -15.998 \pm j16.782
+\end{equation}
+
+The above poles are the conjugate poles which will determine the behaviour of the closed-loop
+system. However, since the lab requires the controller to be at least first-order (and the
+derived plant is second order), the characteristic polynomial of the closed-loop system
+must be third-order. Thus, another pole is required. In order to maintain the desired behaviour
+already determined, this third pole must be non-dominant - this means it must lie on the real
+axis and be at least five times further from the imaginary axis than the conjugate pole pair.
+The reasoning for this is simple: the real part of a pole is what determines the exponential
+behaviour it contributes to the system. If the real value of the pole is significantly larger (and negative)
+than the other poles, it will decay much more quickly, resulting in its time-domain behaviour
+contribution being negligible. /par
+
+Based on the above description, the third and non-dominant pole of the closed-loop system is
+$s_3 = -80$. \par
+
+The third-order characteristic polynomial for the system is as follows:
+
+\begin{equation}
+    \pi(s) = (s - s_1)(s - s_2)(s - s_3)
+\end{equation}
+
+Substituting the three desired poles, $s_1$, $s_2$ and $s_3$:
+
+\begin{equation}
+    \pi(s) = (s - (-15.998 + j16.782))(s - (-15.998 - j16.782))(s - (-80))
+\end{equation}
+
+Expanding and collecting like terms shows the full third order characteristic polynomial
+and its coefficients, which will be used briefly to determine those of the controller.
+
+\begin{equation}
+    \pi(s) = s^3 + 111.996s^2 + 3097.252s + 45005.76
+\end{equation}
+
+The controller design will be done using the Sylvester matrix method, which will be described
+briefly. First, the coefficients of the characteristic polynomial must be gathered:
+
+\begin{equation}
+    \alpha_3 = 1, \alpha_2 = 111.996, \alpha_1 = 3097.252, \alpha_0 = 45005.76
+\end{equation}
+
+Then, the plant must be made into the following form:
+
+\begin{equation}
+    P(s) = \frac{b_2 s^2 + b_1 s - b_0}{s^2 + a_1 s + a_0}
+\end{equation}
+
+Taking the plant derived in the previous lab, and transposing it to the above form gives the following:
+
+\begin{equation}
+    P(s) = \frac{0 s^2 + 0 s - 104.413}{s^2 + 55.227s + 0}
+\end{equation}
+
+And naming the coefficients gives:
+
+\begin{equation}
+    b_2 = 0, b_1 = 0, b_0 = -104.413
+    a_1 = 55.227, a_0 = 0
+\end{equation}
+
+Assuming a proper, first-order controller of the following form:
+
+\begin{equation}
+    \label{eq:controller_model}
+    C(s) = \frac{g_1 s + g_0}{f_1 s + f_0}
+\end{equation}
+
+Now, the Sylvester matrix method will be described. It states that a matrix
+made up of the coefficients of the plant, called the Sylvester matrix, multiplied
+by an array made up of the coefficients of the controller is equal to an array
+made up by the coefficients of the resulting characteric polynomial. The following
+equation displays this:
+
+\begin{equation}
+    \begin{bmatrix}
+        1   & 0   & b_2 & 0   \\
+        a_1 & 1   & b_1 & b_2 \\
+        a_0 & a_1 & b_0 & b_1 \\
+        0   & a_0 & 0   & b_0
+    \end{bmatrix}
+    \begin{bmatrix}
+        f_1 \\
+        f_0 \\
+        g_1 \\
+        g_0
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        \alpha_3 \\
+        \alpha_2 \\
+        \alpha_1 \\
+        \alpha_0
+    \end{bmatrix}
+\end{equation}
+
+Substituting all the gathered coefficients from the desired characteristic polynomial and the
+plant gives:
+
+\begin{equation}
+    \begin{bmatrix}
+        1      & 0      & 0        & 0        \\
+        55.227 & 1      & 0        & 0        \\
+        0      & 55.227 & -104.413 & 0        \\
+        0      & 0      & 0        & -104.413
+    \end{bmatrix}
+    \begin{bmatrix}
+        f_1 \\
+        f_0 \\
+        g_1 \\
+        g_0
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        1        \\
+        111.996  \\
+        3097.252 \\
+        43005.760
+    \end{bmatrix}
+\end{equation}
+
+Using simple system of equation rules allows for the calculation of each controller coefficient, as
+follows:
+
+\begin{equation}
+    f_1 = 1, f_0 = 56.769, g_1 = 0.363, g_0 = -411.881
+\end{equation}
+
+Substituting these values into the controller model from equation \ref{eq:controller_model} gives the following:
+
+\begin{equation}
+    C(s) = \frac{0.363s - 411.881}{s + 56.769}
+\end{equation}
+
+The above controller model was placed into the closed-loop simulation model in MatLab, with the
+previously derived plant. The reference signal was set to a step function which alternates between
+$-0.7 rad$ and $0.7 rad$, with a duty cycle of 50\% and a period of 2 seconds, as instructed. Below is
+the model, followed by the time-domain response.
+
+\begin{figure}[H]
+    \centering
+    \caption{Model of closed-loop system.}
+    \includegraphics[width=0.7\textwidth]{"figures/closed-loop-model-controller.png"}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \label{fig:time-domain-response-pre-tweak}
+    \caption{Time-domain response of closed-loop system to reference signal.}
+    \includegraphics[width=0.7\textwidth]{"figures/time-domain-response-pre-tweak.png"}
+\end{figure}
+
+From figure \ref{fig:time-domain-response-pre-tweak}, it is clear that the steady state error
+is equal to zero. In order to determine if the controller meets the other two requirements,
+the peak value and the settling time of the time-domain response signal must be measured.
+
+\begin{figure}[H]
+    \centering
+    \label{fig:time-domain-meas-settling-time-pre-tweak}
+    \caption{Measurement of 2\% settling time}
+    \includegraphics[width=0.7\textwidth]{"figures/time-domain-meas-settling-time-pre-tweak.png"}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \label{fig:time-domain-meas-overshoot-pre-tweak}
+    \caption{Measurement of overshoot percentage}
+    \includegraphics[width=0.7\textwidth]{"figures/time-domain-meas-overshoot-pre-tweak.png"}
+\end{figure}
+
+The 2\% settling time is the amount of time after the step response that is required
+for the system output to reach 2\% of the reference signal. Since the reference signal goes
+from $-0.7$ to $0.7$, the total value of the step function is $1.4$. Therefore, the 2\% settling
+time occurs when the signal reaches $102\%$ of $1.4$, which is $1.428$. The measurement in figure
+\ref{fig:time-domain-meas-settling-time-pre-tweak} shows that this occurs $0.275$s after the
+unit step, which is slower than the required $0.25$s. \par
+The overshoot percentage, which is required to be no more than 5\%, is measured in figure
+\ref{fig:time-domain-meas-overshoot-pre-tweak}. The peak difference is measured to be $1.464$;
+$105\%$ of the unit step value would be $1.47$, and so the overshoot percentage of this controller
+is within the acceptable range. \par
+
+Since the 2\% settling time is dependent on the natural frequency, $\omega_n$, this would need to
+be modified in order to prevent the settling time from going above its limit. However, this would
+be time consuming, as it would require redoing nearly the entire process as described above.
+\verb|systune|, a tool in MatLab, is a much more efficient way of tuning the
+existing controller to fit within the required settling time. The newly tuned controller has
+the following values, and its response to a step input can be seen in figure
+\ref{fig:step-response-post-tune}.
+
+\begin{equation}
+    \label{eq:tuned_controller}
+    C(s) = \frac{-2.452 s - 135.4}{s + 24.95}
+\end{equation}
+
+\begin{figure}[H]
+    \centering
+    \caption{Tuned controller performance to step input.}
+    \label{fig:step-response-post-tune}
+    \includegraphics[width=0.3\textwidth]{"figures/step-response-post-tune.png"}
+\end{figure}
+
+The new controller is also shown to have a voltage within $\pm 6V$, as can be
+seen by the signal output by C(s) in figure \ref{fig:cont-controller-voltage}.
+
+\begin{figure}[H]
+    \centering
+    \label{fig:cont-controller-voltage}
+    \caption{Motor voltage shown to be within $\pm 6V$ when using the tuned controller.}
+    \includegraphics[width=0.7\textwidth]{"figures/cont-controller-voltage.png"}
+\end{figure}
+
+\section{Question B}
+
+The discretization of a controller is necessary to allow a microcontroller, such as the Arduino Mega,
+to run the controller digitally. Software controllers cannot run in continuous time, and so have
+to sample the continuous time values, therefore making the system discrete. While a continuous controller
+can use derivatives to transform between LaPlace and time domains, discrete systems are non-continuous
+and therefore can not utilize derivatives. This results in discretization being necessary, and this
+can be done using one of two methods: bilinear transformation or step-invariant transformation.
+Bilinear transformation guarantees the stability of an already stable continuous controller, and
+is better at maintaining the time-domain behaviour of a continuous controller, while
+step-invariant transformation does not guarantee stability, but better maintains frequency domain
+responses. Since time-domain characteristics are those which are required, and stability is
+paramount in this system, bilinear transformation will be used to discretize the continuous
+controller. \par
+
+Bilinear transformation involves replacing the Laplace domain variable $s$ with the discrete domain
+variable $z$, using the following equation:
+
+\begin{equation}
+    \label{eq:bilinear-transform}
+    s = \frac{2}{T}\frac{z-1}{z+1}
+\end{equation}
+
+Where $T$ is the sampling period, which has been chosen to be 0.005. Analyzing the time-domain
+step response, there are a few periods in which fast response is important, such as the peak time
+and the settling time, which are required characteristics that must be maintained during discretization.
+At these points, the controller must react quickly to limit the overshoot around the peak time
+and to reduce oscillations around the 2\% settling time. Since the time constant which governs these values
+is 0.0625, the sampling time period was chosen to be roughly ten times smaller to allow the controller to
+react appropriately.
+
+Substituting $s$ using equation \ref{eq:bilinear-transform} into the equation
+\ref{eq:controller_model} for the continuous controller gives a new, discrete controller
+formula that should replicate its time-domain behaviour:
+
+\begin{equation}
+    C[z] = \frac{(2g_1+Tg_0)z + (Tg_0 - 2g_1)}{(2f_1+Tf_0)z + (Tf_0 - 2f_1)}
+\end{equation}
+
+Substituting the new coefficients of the tuned controller, as seen in equation
+\ref{eq:tuned_controller}, as well as the chosen sampling period, $T$, gives the following:
+
+\begin{equation}
+    C[z] = \frac{-5.581z+4.227}{2.125z-1.875}
+\end{equation}
+
+The discrete controller was then input into MatLab, where it was compared with the continuous
+controller step response.
+
+\begin{figure}[H]
+    \centering
+    \label{fig:discrete-controller-model}
+    \includegraphics[width=0.7\textwidth]{"figures/discrete-controller-model.png"}
+    \caption{Discrete controller model in MatLab}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \label{fig:discrete-step-response-matlab}
+    \caption{Discrete and continuous models step response compared. As can be seen, there is
+        little to no visible difference between the time-domain characteristics of the two models.}
+    \includegraphics[width=0.7\textwidth]{"figures/discrete-step-response-matlab.png"}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \label{fig:discrete-controller-voltage-matlab}
+    \includegraphics[width=0.7\textwidth]{"figures/discrete-controller-voltage-matlab.png"}
+    \caption{Motor voltage when using the discrete controller; it does not encroach $\pm 6V$}
+\end{figure}
+
+
+
+\end{document}
