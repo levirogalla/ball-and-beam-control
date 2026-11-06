@@ -59,20 +59,22 @@ static void motor_voltage_set(float volts)
   s_motor_pwm.pulse_perc(duty);
 }
 
-void motor_voltage_no_stick_set(float volts)
-{
+float motor_voltage_no_stick_set(float volts) {
+  float volts_adjusted = 0;
   if (volts > 0.0f)
   {
-    motor_voltage_set(volts + POS_V_STICTION);
+    volts_adjusted = volts + POS_V_STICTION;
   }
   else if (volts < 0.0f)
   {
-    motor_voltage_set(volts + NEG_V_STICTION);
+    volts_adjusted = volts + NEG_V_STICTION;
   }
   else
   {
-    motor_voltage_set(0);
+    volts_adjusted = 0;
   }
+  motor_voltage_set(volts_adjusted);
+  return volts_adjusted;
 }
 
 static float theta_desired_saturate(float theta_desired)

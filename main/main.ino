@@ -50,6 +50,7 @@ void setup()
 }
 
 // ================== Loop ==================
+float motor_voltage = 0;
 uint64_t sample = 0;
 void loop()
 {
@@ -78,7 +79,11 @@ void loop()
   }
 
   float angle = pot_angle_read_eng();
+  Serial.print(sample);
+  Serial.print(", ");
   Serial.print(theta_desired_get(), 5);
+  Serial.print(", ");
+  Serial.print(motor_voltage, 5);
   Serial.print(", ");
   Serial.println(angle, 5);
   sample++;
@@ -101,7 +106,7 @@ void interval_control_code(void)
   if (s_enable_control_isr)
   {
     float theta_desired = theta_desired_saturated_get();
-    motor_voltage_no_stick_set(motor_controller_theta_to_volt_1(
+    motor_voltage = motor_voltage_no_stick_set(motor_controller_theta_to_volt_1(
         theta_desired, angle, &controller_init_state));
   }
 }

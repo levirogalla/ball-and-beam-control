@@ -1,4 +1,4 @@
-Port = usbmodem2101
+Port = usbmodem21101
 BaudRate = 115200
 DataBits = 8
 Parity = N
@@ -144,4 +144,4 @@ ChartNoOfDatapoints = 1
 TxMacro = 
 KeepOnTop = false
 PreventWindowClosure = false
-WindowPosition = 757,158,1039,1006
+WindowPosition = 431,139,1039,1006
