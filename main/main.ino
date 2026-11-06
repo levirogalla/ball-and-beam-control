@@ -81,18 +81,20 @@ void loop()
   float angle = pot_angle_read_eng();
   Serial.print(sample);
   Serial.print(", ");
+  Serial.print(micros() - logging_start_us);
+  Serial.print(", ");
   Serial.print(theta_desired_get(), 5);
   Serial.print(", ");
   Serial.print(motor_voltage, 5);
   Serial.print(", ");
   Serial.println(angle, 5);
-  sample++;
 }
 
 // ================== Control ISR ==================
 static float controller_init_state = 0;
 void interval_control_code(void)
 {
+  sample++;
   pot_angle_populate();
   float angle = pot_angle_read_eng();
 
