@@ -369,13 +369,16 @@ variable $z$, using the following equation:
     s = \frac{2}{T}\frac{z-1}{z+1}
 \end{equation}
 
-Where $T$ is the sampling period, which has been chosen to be 0.005. Analyzing the time-domain
-step response, there are a few periods in which fast response is important, such as the peak time
+Where $T$ is the sampling period, which has been chosen to be 0.0005, making the sampling frequency equal
+to $2kHz$. Analyzing the time-domain step response, there are a few periods in which fast response is
+important, such as the peak time
 and the settling time, which are required characteristics that must be maintained during discretization.
 At these points, the controller must react quickly to limit the overshoot around the peak time
 and to reduce oscillations around the 2\% settling time. Since the time constant which governs these values
-is 0.0625, the sampling time period was chosen to be roughly ten times smaller to allow the controller to
-react appropriately.
+is 0.0625, the sampling time period was chosen to be roughly one hundred times smaller to allow the controller to
+react appropriately. \par
+(Note: 200 Hz was initially used for the sampling frequency, but it was experimentally determined that this was too slow of
+a response to obtain the desired time-domain characteristics; for this reason, the frequency was increased by a factor of ten.)
 
 Substituting $s$ using equation \ref{eq:bilinear-transform} into the equation
 \ref{eq:controller_model} for the continuous controller gives a new, discrete controller
@@ -389,7 +392,7 @@ Substituting the new coefficients of the tuned controller, as seen in equation
 \ref{eq:tuned_controller}, as well as the chosen sampling period, $T$, gives the following:
 
 \begin{equation}
-    C[z] = \frac{-5.581z+4.227}{2.125z-1.875}
+    C[z] = \frac{-4.9717z+4.8363}{2.012475z-1.987525}
 \end{equation}
 
 The discrete controller was then input into MatLab, where it was compared with the continuous
@@ -415,7 +418,5 @@ controller step response.
     \includegraphics[width=0.7\textwidth]{"figures/discrete-controller-voltage-matlab.png"}
     \caption{Motor voltage when using the discrete controller; it does not encroach $\pm 6V$}
 \end{figure}
-
-
 
 \end{document}
