@@ -1,3 +1,4 @@
+#include "api/Common.h"
 #include "src/geeWhiz/geeWhiz.h"
 #include "src/motor.h"
 #include "src/position.h"
@@ -13,11 +14,11 @@ int BAL_PIN = A1; // ball position sensor
 int PWM_PIN = D9; // motor PWM
 int DIR_PIN = D8; // direction
 
-typedef enum
-{
+typedef enum {
   APP_STATE_CALCULATE_OVERSHOOT,
   APP_STATE_CALCULATE_STICKTION,
   APP_STATE_SINE_WAVE,
+  APP_STATE_ESTOP,
 } AppState;
 
 static AppState s_app_state;
@@ -64,39 +65,32 @@ void loop()
     s_enable_control_isr = true;
     calculate_sine_wave(8000);
     break;
+  case APP_STATE_ESTOP:
+    Serial.println("Estopped");
+    delay(1000);
+    break;
   }
 
   float angle = pot_angle_read_eng();
-  // uint32_t elapsed_us = micros() - logging_start_us;
-  // Serial.print(-0.1);
-  // Serial.print(", ");
-  // Serial.print(0.3);
-  // Serial.print(", ");
-  // Serial.print(sample);
-  // Serial.print(", ");
-  // Serial.print(elapsed_us / 1000000.0f, 6);
-  // Serial.print(", ");
-  // Serial.print(MOTOR_CONTROLLER_KP);
-  // Serial.print(", ");
-  // Serial.print(ISR_PERIOD_US);
-  // Serial.print(", ");
   Serial.print(theta_desired_get(), 5);
   Serial.print(", ");
   Serial.println(angle, 5);
   sample++;
 }
-// motor voltage: 0.12200007 | theta: -0.13642
-// motor voltage: 0.11400005 | theta: -0.21910
-// motor voltage: 0.12100007 | theta: -0.28667
-// motor voltage: 0.11200005 | theta: -0.35174
 
 // ================== Control ISR ==================
 static float controller_init_state = 0;
-void interval_control_code(void)
-{
+void interval_control_code(void) {
+  pot_angle_populate();
+  float angle = pot_angle_read_eng();
+
+  if (abs(angle) > 0.8) {
+    motor_voltage_no_stick_set(0);
+    s_enable_control_isr = false;
+    s_app_state = APP_STATE_ESTOP;
+  }
+
   if (s_enable_control_isr) {
-    pot_angle_populate();
-    float angle = pot_angle_read_eng();
     float theta_desired = theta_desired_saturated_get();
     motor_voltage_no_stick_set(motor_controller_theta_to_volt_1(
         theta_desired, angle, &controller_init_state));

@@ -149,7 +149,6 @@ void calculate_stiction(void) {
     motor_voltage_set(motor_voltage);
 
     for (int t = 50; t > 0; t--) {
-      pot_angle_populate();
       theta = pot_angle_read_eng();
       delay(4);
 
