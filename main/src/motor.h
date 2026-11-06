@@ -15,6 +15,8 @@ float theta_desired_get(void);
 
 float theta_desired_saturated_get(void);
 
+void calculate_stiction(void);
+
 void calculate_overshoot(uint32_t period_ms);
 
 void calculate_sine_wave(uint32_t period_ms);

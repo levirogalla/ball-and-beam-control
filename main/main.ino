@@ -21,9 +21,8 @@ typedef enum
 } AppState;
 
 static AppState s_app_state;
+static bool s_enable_control_isr = false;
 uint32_t logging_start_us;
-
-void calculate_stiction(void);
 
 // ================== Setup ==================
 void setup()
@@ -54,12 +53,15 @@ void loop()
   switch (s_app_state)
   {
   case APP_STATE_CALCULATE_OVERSHOOT:
+    s_enable_control_isr = true;
     calculate_overshoot(1000);
     break;
   case APP_STATE_CALCULATE_STICKTION:
+    s_enable_control_isr = false; // isr would compete for control of the motor
     calculate_stiction();
     break;
   case APP_STATE_SINE_WAVE:
+    s_enable_control_isr = true;
     calculate_sine_wave(8000);
     break;
   }
@@ -92,9 +94,11 @@ void loop()
 static float controller_init_state = 0;
 void interval_control_code(void)
 {
-  pot_angle_populate();
-  float angle = pot_angle_read_eng();
-  float theta_desired = theta_desired_saturated_get();
-  motor_voltage_no_stick_set(motor_controller_theta_to_volt_1(
-      theta_desired, angle, &controller_init_state));
+  if (s_enable_control_isr) {
+    pot_angle_populate();
+    float angle = pot_angle_read_eng();
+    float theta_desired = theta_desired_saturated_get();
+    motor_voltage_no_stick_set(motor_controller_theta_to_volt_1(
+        theta_desired, angle, &controller_init_state));
+  }
 }

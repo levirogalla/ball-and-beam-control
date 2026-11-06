@@ -139,29 +139,32 @@ void calculate_sine_wave(uint32_t period_ms)
 }
 
 /// @brief Calculate and print stiction of motor, disables interrupts
-void calculate_stiction(void)
-{
-  noInterrupts();
+void calculate_stiction(void) {
   pot_angle_populate();
   float initial_theta = pot_angle_read_eng();
   float theta = initial_theta;
   float motor_voltage = 0.0;
-  while (abs(theta - initial_theta) < 0.06)
-  {
+  bool done = false;
+  while (!done) {
     motor_voltage_set(motor_voltage);
-    delay(200);
-    pot_angle_populate();
-    theta = pot_angle_read_eng();
 
-    Serial.print("motor voltage: ");
-    Serial.print(motor_voltage, 8);
-    Serial.print(" | theta: ");
-    Serial.println(theta, 5);
+    for (int t = 50; t > 0; t--) {
+      pot_angle_populate();
+      theta = pot_angle_read_eng();
+      delay(4);
 
+      if (abs(theta - initial_theta) >= 0.06) {
+        done = true;
+        break;
+      }
+
+      Serial.print(motor_voltage, 8);
+      Serial.print(",");
+      Serial.println(theta, 5);
+    }
     motor_voltage -= 0.001;
   }
   motor_voltage_set(0.0);
   Serial.println("stiction calculation complete... delaying for 10 seconds");
   delay(1000 * 10);
-  interrupts();
 }

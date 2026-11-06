@@ -18,6 +18,7 @@ void pot_angle_populate(void) {
     sum += analogRead(s_angle_pin);
   }
 
+  // round to nearest integer when averaging
   int raw = (sum + s_angle_samples / 2) / s_angle_samples;
   s_angle_raw.store(raw, std::memory_order_relaxed);
 }
