@@ -70,6 +70,7 @@ settling time is no more than 0.25 seconds; the step response overshoot is no
 more than 5\%; and the motor voltage does not exceed more than 6V in either
 direction. \par
 The first requirement is already accounted for due to the nature of our plant.
+% COMMENT(levi) I would say that the open loop system needs to have a model of the reference signal
 According to Internal Model Principle, in order for a closed loop system to have
 perfect error tracking, either the plant or the controller must contain a model
 of the reference signal, in the LaPlace domain. In this situation, the
@@ -144,6 +145,7 @@ axis and be at least five times further from the imaginary axis than the conjuga
 The reasoning for this is simple: the real part of a pole is what determines the exponential
 behaviour it contributes to the system. If the real value of the pole is significantly larger (and negative)
 than the other poles, it will decay much more quickly, resulting in its time-domain behaviour
+% the /par is in the output
 contribution being negligible. /par
 
 Based on the above description, the third and non-dominant pole of the closed-loop system is

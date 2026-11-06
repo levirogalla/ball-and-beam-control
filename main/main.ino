@@ -89,10 +89,12 @@ void loop()
 // motor voltage: 0.11200005 | theta: -0.35174
 
 // ================== Control ISR ==================
+static float controller_init_state = 0;
 void interval_control_code(void)
 {
   pot_angle_populate();
   float angle = pot_angle_read_eng();
   float theta_desired = theta_desired_saturated_get();
-  motor_voltage_no_stick_set(motor_controller_theta_to_volt(theta_desired, angle));
+  motor_voltage_no_stick_set(motor_controller_theta_to_volt_1(
+      theta_desired, angle, &controller_init_state));
 }
