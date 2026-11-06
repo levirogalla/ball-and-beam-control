@@ -1,3 +1,4 @@
+#include "Arduino.h"
 #include "geeWhiz/geeWhiz.h"
 #include "position.h"
 #include "transfer.h"
@@ -18,6 +19,7 @@ static constexpr float PWM_HZ = 24000.0f;
 static constexpr float VMAX = 6.0f;
 static constexpr float DUTY_MAX = 99.2f;
 static std::atomic<float> s_theta_desired{0.0f};
+static float s_motor_last_set_voltage = 0;
 
 // must be called before motor init
 void motor_config(int pwm_pin, int dir_pin)
@@ -59,23 +61,23 @@ static void motor_voltage_set(float volts)
   s_motor_pwm.pulse_perc(duty);
 }
 
-float motor_voltage_no_stick_set(float volts) {
-  float volts_adjusted = 0;
+void motor_voltage_no_stick_set(float volts) {
   if (volts > 0.0f)
   {
-    volts_adjusted = volts + POS_V_STICTION;
+    s_motor_last_set_voltage = volts + POS_V_STICTION;
   }
   else if (volts < 0.0f)
   {
-    volts_adjusted = volts + NEG_V_STICTION;
+    s_motor_last_set_voltage = volts + NEG_V_STICTION;
   }
   else
   {
-    volts_adjusted = 0;
+    s_motor_last_set_voltage = 0;
   }
-  motor_voltage_set(volts_adjusted);
-  return volts_adjusted;
+  motor_voltage_set(s_motor_last_set_voltage);
 }
+
+float motor_voltage_get() { return s_motor_last_set_voltage; }
 
 static float theta_desired_saturate(float theta_desired)
 {
@@ -158,33 +160,68 @@ void calculate_square_wave(uint32_t period_ms, float duty_cycle)
 /// @brief Calculate and print stiction of motor, disables interrupts
 void calculate_stiction(void)
 {
-  pot_angle_populate();
-  float initial_theta = pot_angle_read_eng();
-  float theta = initial_theta;
+  const float voltage_step = 0.001;
+  const float theta_threshold = 0.02;
+
+  float theta;
   float motor_voltage = 0.0;
-  bool done = false;
-  while (!done)
-  {
-    motor_voltage_set(motor_voltage);
 
-    for (int t = 50; t > 0; t--)
-    {
-      theta = pot_angle_read_eng();
-      delay(4);
+  // Bring motor to theta = 0 using the normal controller.
+  Serial.println("Setting theta to 0 using closed loop control...");
+  theta_desired_set(0.0);
+  motor_controller_enable(true);
+  delay(2000);
+  motor_controller_enable(false);
 
-      if (abs(theta - initial_theta) >= 0.06)
-      {
-        done = true;
-        break;
+  // Find stiction in both directions.
+  float stiction_vals[2] = {0, 0};
+
+  for (int direction = -1; direction <= 1; direction += 2) {
+    motor_voltage = motor_voltage_get();
+    bool moved = false;
+    float theta_init = pot_angle_read_eng();
+
+    while (!moved) {
+      for (int t = 30; t > 0; t--) {
+        theta = pot_angle_read_eng();
+
+        motor_voltage_set(motor_voltage);
+
+        if (abs(theta - theta_init) >= theta_threshold) {
+          moved = true;
+          break;
+        }
+
+        Serial.print(motor_voltage, 8);
+        Serial.print(",");
+        Serial.println(theta, 5);
+
+        delay(4);
       }
 
-      Serial.print(motor_voltage, 8);
-      Serial.print(",");
-      Serial.println(theta, 5);
+      motor_voltage += direction * voltage_step;
     }
-    motor_voltage -= 0.001;
+
+    Serial.println("done");
+
+    stiction_vals[(direction + 1) / 2] = motor_voltage;
+
+    // Return to zero using the normal controller.
+    motor_controller_enable(true);
+    delay(2000);
+    motor_controller_enable(false);
   }
-  motor_voltage_set(0.0);
+
+  motor_controller_enable(true);
+  theta_desired_set(0.0);
+
+  Serial.print("negative voltage stiction: ");
+  Serial.println(stiction_vals[0], 8);
+  Serial.print("positive voltage stiction: ");
+  Serial.println(stiction_vals[1], 8);
+
   Serial.println("stiction calculation complete... delaying for 10 seconds");
-  delay(1000 * 10);
+  delay(1000 * 60 * 10);
+
+  motor_controller_enable(false);
 }

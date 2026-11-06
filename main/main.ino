@@ -24,7 +24,6 @@ typedef enum
 } AppState;
 
 static AppState s_app_state;
-static bool s_enable_control_isr = false;
 uint32_t logging_start_us;
 
 // ================== Setup ==================
@@ -44,35 +43,36 @@ void setup()
   motor_init();
   set_control_interval_us(ISR_PERIOD_US); // 2 kHz
 
-  s_app_state = APP_STATE_SQUARE_WAVE;
+  s_app_state = APP_STATE_CALCULATE_STICKTION;
   logging_start_us = micros();
   Serial.println("initialization complete!");
 }
 
 // ================== Loop ==================
-float motor_voltage = 0;
 uint64_t sample = 0;
 void loop()
 {
   switch (s_app_state)
   {
   case APP_STATE_CALCULATE_OVERSHOOT:
-    s_enable_control_isr = true;
+    motor_controller_enable(true);
     calculate_overshoot(1000);
     break;
   case APP_STATE_CALCULATE_STICKTION:
-    s_enable_control_isr = false; // isr would compete for control of the motor
+    motor_controller_enable(false);
     calculate_stiction();
     break;
   case APP_STATE_SINE_WAVE:
-    s_enable_control_isr = true;
+    motor_controller_enable(true);
     calculate_sine_wave(8000);
     break;
   case APP_STATE_SQUARE_WAVE:
-    s_enable_control_isr = true;
+    motor_controller_enable(true);
     calculate_square_wave(2000, 0.5);
     break;
   case APP_STATE_ESTOP:
+    motor_controller_enable(false);
+    calculate_square_wave(2000, 0.5);
     Serial.println("Estopped");
     delay(1000);
     break;
@@ -85,7 +85,7 @@ void loop()
   Serial.print(", ");
   Serial.print(theta_desired_get(), 5);
   Serial.print(", ");
-  Serial.print(motor_voltage, 5);
+  Serial.print(motor_voltage_get(), 5);
   Serial.print(", ");
   Serial.println(angle, 5);
 }
@@ -101,14 +101,13 @@ void interval_control_code(void)
   if (abs(angle) > 0.8)
   {
     motor_voltage_no_stick_set(0);
-    s_enable_control_isr = false;
+    motor_controller_enable(false);
     s_app_state = APP_STATE_ESTOP;
   }
 
-  if (s_enable_control_isr)
-  {
+  if (motor_controller_enabled()) {
     float theta_desired = theta_desired_saturated_get();
-    motor_voltage = motor_voltage_no_stick_set(motor_controller_theta_to_volt_1(
+    motor_voltage_no_stick_set(motor_controller_theta_to_volt_1(
         theta_desired, angle, &controller_init_state));
   }
 }

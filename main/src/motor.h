@@ -7,7 +7,9 @@ void motor_config(int pwm_pin, int dir_pin);
 
 int motor_init();
 
-float motor_voltage_no_stick_set(float volts);
+void motor_voltage_no_stick_set(float volts);
+
+float motor_voltage_get();
 
 void theta_desired_set(float theta);
 

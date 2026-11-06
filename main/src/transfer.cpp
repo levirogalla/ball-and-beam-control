@@ -31,3 +31,7 @@ float motor_controller_theta_to_volt_1(float theta_target, float theta,
   *previous_state = state;
   return u;
 }
+
+static bool s_enable_control_isr = false;
+void motor_controller_enable(bool enable) { s_enable_control_isr = enable; }
+bool motor_controller_enabled() { return s_enable_control_isr; }

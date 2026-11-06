@@ -10,4 +10,8 @@ float motor_controller_theta_to_volt_0(float theta_target, float theta);
 float motor_controller_theta_to_volt_1(float theta_target, float theta,
                                        float *previous_state);
 
+void motor_controller_enable(bool enable);
+
+bool motor_controller_enabled();
+
 #endif
