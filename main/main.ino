@@ -20,6 +20,7 @@ typedef enum {
   APP_STATE_SINE_WAVE,
   APP_STATE_SQUARE_WAVE,
   APP_STATE_CHARACTERIZE_BALL_SENSOR,
+  APP_STATE_GRAVITY_THING,
   APP_STATE_ESTOP,
 } AppState;
 
@@ -44,7 +45,7 @@ void setup()
   motor_init();
   set_control_interval_us(ISR_PERIOD_US); // 2 kHz
 
-  s_app_state = APP_STATE_CHARACTERIZE_BALL_SENSOR;
+  s_app_state = APP_STATE_GRAVITY_THING;
   logging_start_us = micros();
   Serial.println("initialization complete!");
 }
@@ -77,6 +78,30 @@ void loop()
         0.3 * (0.5 * (calculate_square_wave(13 * 1000, 0.1, 0.0f) + 1) -
                0.5 * (calculate_square_wave(13 * 1000, 0.1, 180.0f) + 1));
     theta_desired_set(theta);
+    break;
+  }
+  case APP_STATE_GRAVITY_THING: {
+    motor_controller_enable(true);
+
+    uint32_t elapsed_us = micros() - logging_start_us;
+    if (elapsed_us < 5e6) {
+      theta_desired_set(0.0);
+    } else if (elapsed_us < 15e6) {
+      theta_desired_set(0.2);
+    } else if (elapsed_us < 25e6) {
+      theta_desired_set(-0.2);
+    } else if (elapsed_us < 35e6) {
+      theta_desired_set(0.3);
+    } else if (elapsed_us < 45e6) {
+      theta_desired_set(-0.3);
+    } else if (elapsed_us < 55e6) {
+      theta_desired_set(0.4);
+    } else if (elapsed_us < 65e6) {
+      theta_desired_set(-0.4);
+    } else {
+      theta_desired_set(0.0);
+    }
+
     break;
   }
   case APP_STATE_ESTOP:
