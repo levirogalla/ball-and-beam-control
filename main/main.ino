@@ -65,11 +65,11 @@ void loop()
     break;
   case APP_STATE_SINE_WAVE:
     motor_controller_enable(true);
-    calculate_sine_wave(8000);
+    theta_desired_set(0.7 * calculate_sine_wave(8000));
     break;
   case APP_STATE_SQUARE_WAVE:
     motor_controller_enable(true);
-    calculate_square_wave(2000, 0.5);
+    theta_desired_set(0.7 * calculate_square_wave(2000, 0.5));
     break;
   case APP_STATE_CHARACTERIZE_BALL_SENSOR:
     motor_controller_enable(true);
@@ -94,7 +94,7 @@ void loop()
     break;
   case APP_STATE_ESTOP:
     motor_controller_enable(false);
-    calculate_square_wave(2000, 0.5);
+    theta_desired_set(0.7 * calculate_square_wave(2000, 0.5));
     Serial.println("Estopped");
     delay(1000);
     break;
@@ -111,7 +111,7 @@ void loop()
   Serial.print(", ");
   Serial.print(angle, 5);
   Serial.print(", ");
-  Serial.println(sense_distance_read_raw(), 8);
+  Serial.println(sense_distance_read_eng(), 8);
 }
 
 // ================== Control ISR ==================
