@@ -14,12 +14,12 @@ int BAL_PIN = A1; // ball position sensor
 int PWM_PIN = D9; // motor PWM
 int DIR_PIN = D8; // direction
 
-typedef enum
-{
+typedef enum {
   APP_STATE_CALCULATE_OVERSHOOT,
   APP_STATE_CALCULATE_STICKTION,
   APP_STATE_SINE_WAVE,
   APP_STATE_SQUARE_WAVE,
+  APP_STATE_CHARACTERIZE_BALL_SENSOR,
   APP_STATE_ESTOP,
 } AppState;
 
@@ -34,7 +34,8 @@ void setup()
   pinMode(A5, OUTPUT); // A5 can be used to measure cycle time using an oscilloscope by connecting the scope to the Arduino Box Motor Leads
   Serial.begin(115200);
 
-  pot_angle_config(MOT_PIN, 5);
+  pot_angle_config(MOT_PIN, 3);
+  sense_distance_config(BAL_PIN, 3);
   motor_config(PWM_PIN, DIR_PIN);
 
   delay(300);
@@ -43,7 +44,7 @@ void setup()
   motor_init();
   set_control_interval_us(ISR_PERIOD_US); // 2 kHz
 
-  s_app_state = APP_STATE_CALCULATE_STICKTION;
+  s_app_state = APP_STATE_CHARACTERIZE_BALL_SENSOR;
   logging_start_us = micros();
   Serial.println("initialization complete!");
 }
@@ -70,6 +71,27 @@ void loop()
     motor_controller_enable(true);
     calculate_square_wave(2000, 0.5);
     break;
+  case APP_STATE_CHARACTERIZE_BALL_SENSOR:
+    motor_controller_enable(true);
+    Serial.println("theta = 0.1 rad");
+    theta_desired_set(0.1);
+    for (int i = 0; i < 3; i++) {
+      delay(500); // wait 10 seconds
+      Serial.println(pot_angle_read_eng());
+    }
+    theta_desired_set(0);
+    delay(5000); // wait 10 seconds
+
+    Serial.println("theta = -0.1 rad");
+    theta_desired_set(-0.2);
+    for (int i = 0; i < 3; i++) {
+      delay(500); // wait 10 seconds
+      Serial.println(pot_angle_read_eng());
+    }
+    theta_desired_set(0);
+    delay(5000); // wait 10 seconds
+
+    break;
   case APP_STATE_ESTOP:
     motor_controller_enable(false);
     calculate_square_wave(2000, 0.5);
@@ -87,7 +109,9 @@ void loop()
   Serial.print(", ");
   Serial.print(motor_voltage_get(), 5);
   Serial.print(", ");
-  Serial.println(angle, 5);
+  Serial.print(angle, 5);
+  Serial.print(", ");
+  Serial.println(sense_distance_read_raw(), 8);
 }
 
 // ================== Control ISR ==================
@@ -96,6 +120,7 @@ void interval_control_code(void)
 {
   sample++;
   pot_angle_populate();
+  sense_distance_populate();
   float angle = pot_angle_read_eng();
 
   if (abs(angle) > 0.8)

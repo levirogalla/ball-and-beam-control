@@ -6,8 +6,8 @@
 #include <cmath>
 #include <pwm.h>
 
-#define POS_V_STICTION 0.120f
-#define NEG_V_STICTION -0.101f
+#define POS_V_STICTION -0.1034f
+#define NEG_V_STICTION -0.5763f
 #define THETA_DESIRED_MAX 0.7f
 #define THETA_SWEEP_AMPLITUDE 0.7f
 
