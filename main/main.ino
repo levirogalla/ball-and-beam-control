@@ -65,38 +65,25 @@ void loop()
     break;
   case APP_STATE_SINE_WAVE:
     motor_controller_enable(true);
-    theta_desired_set(0.7 * calculate_sine_wave(8000));
+    theta_desired_set(0.7 * calculate_sine_wave(8000, 0.0f));
     break;
   case APP_STATE_SQUARE_WAVE:
     motor_controller_enable(true);
-    theta_desired_set(0.7 * calculate_square_wave(2000, 0.5));
+    theta_desired_set(0.7 * calculate_square_wave(2000, 0.5, 0.0f));
     break;
-  case APP_STATE_CHARACTERIZE_BALL_SENSOR:
+  case APP_STATE_CHARACTERIZE_BALL_SENSOR: {
     motor_controller_enable(true);
-    Serial.println("theta = 0.1 rad");
-    theta_desired_set(0.1);
-    for (int i = 0; i < 3; i++) {
-      delay(500); // wait 10 seconds
-      Serial.println(pot_angle_read_eng());
-    }
-    theta_desired_set(0);
-    delay(5000); // wait 10 seconds
-
-    Serial.println("theta = -0.1 rad");
-    theta_desired_set(-0.2);
-    for (int i = 0; i < 3; i++) {
-      delay(500); // wait 10 seconds
-      Serial.println(pot_angle_read_eng());
-    }
-    theta_desired_set(0);
-    delay(5000); // wait 10 seconds
-
+    float theta =
+        0.3 * (0.5 * (calculate_square_wave(13 * 1000, 0.1, 0.0f) + 1) -
+               0.5 * (calculate_square_wave(13 * 1000, 0.1, 180.0f) + 1));
+    theta_desired_set(theta);
     break;
+  }
   case APP_STATE_ESTOP:
     motor_controller_enable(false);
-    theta_desired_set(0.7 * calculate_square_wave(2000, 0.5));
+    theta_desired_set(0.7 * calculate_square_wave(2000, 0.5, 0.0f));
     Serial.println("Estopped");
-    delay(1000);
+    delay(200);
     break;
   }
 
@@ -112,6 +99,7 @@ void loop()
   Serial.print(angle, 5);
   Serial.print(", ");
   Serial.println(sense_distance_read_eng(), 8);
+  Serial.println(pot_angle_read_raw());
 }
 
 // ================== Control ISR ==================

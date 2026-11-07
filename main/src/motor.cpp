@@ -128,26 +128,30 @@ void calculate_overshoot(uint32_t period_ms)
   theta_desired_set(theta_target);
 }
 
-float calculate_sine_wave(uint32_t period_ms) {
+float calculate_sine_wave(uint32_t period_ms, float phase_offset_degrees) {
   if (period_ms == 0)
   {
     return 0.0f;
   }
 
   float cycle_fraction = static_cast<float>(millis() % period_ms) /
-                         static_cast<float>(period_ms);
+                         static_cast<float>(period_ms) +
+                         phase_offset_degrees / 360.0f;
   float phase = 2.0f * PI * cycle_fraction;
   return THETA_SWEEP_AMPLITUDE * sinf(phase);
 }
 
-float calculate_square_wave(uint32_t period_ms, float duty_cycle) {
+float calculate_square_wave(uint32_t period_ms, float duty_cycle,
+                            float phase_offset_degrees) {
   if (period_ms == 0)
   {
     return 0.0f;
   }
 
   float cycle_fraction = static_cast<float>(millis() % period_ms) /
-                         static_cast<float>(period_ms);
+                         static_cast<float>(period_ms) +
+                         phase_offset_degrees / 360.0f;
+  cycle_fraction -= floorf(cycle_fraction);
   return cycle_fraction < duty_cycle ? THETA_SWEEP_AMPLITUDE
                                      : -THETA_SWEEP_AMPLITUDE;
 }
