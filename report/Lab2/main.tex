@@ -70,10 +70,10 @@ settling time is no more than 0.25 seconds; the step response overshoot is no
 more than 5\%; and the motor voltage does not exceed more than 6V in either
 direction. \par
 The first requirement is already accounted for due to the nature of our plant.
-% COMMENT(levi) I would say that the open loop system needs to have a model of the reference signal
+% Levi: I would say that the open loop system needs to have a model of the reference signal
 According to Internal Model Principle, in order for a closed loop system to have
-perfect error tracking, either the plant or the controller must contain a model
-of the reference signal, in the LaPlace domain. In this situation, the
+perfect error tracking, the open loop system (which consists of the plant and the controller)
+must contain a model of the reference signal in the LaPlace domain. In this situation, the
 given reference signal is a step input, which in the LaPlace domain is represented
 by $\frac{1}{s}$. The plant being used has already been characterized in the previous
 lab, and as can be seen in the following equation, already contains a model of the step
@@ -145,8 +145,9 @@ axis and be at least five times further from the imaginary axis than the conjuga
 The reasoning for this is simple: the real part of a pole is what determines the exponential
 behaviour it contributes to the system. If the real value of the pole is significantly larger (and negative)
 than the other poles, it will decay much more quickly, resulting in its time-domain behaviour
-% the /par is in the output
-contribution being negligible. /par
+% Levi: the /par is in the output
+% Alex: Addressed
+contribution being negligible. \par
 
 Based on the above description, the third and non-dominant pole of the closed-loop system is
 $s_3 = -80$. \par
@@ -336,6 +337,8 @@ the following values, and its response to a step input can be seen in figure
     \caption{Tuned controller performance to step input.}
 \end{figure}
 
+The tuned controller has a $2\%$ settling time of $0.2252s$ and an overshoot percentage of exactly
+$2.00\%$, both of which fit the required time-domain performance.
 The new controller is also shown to have a voltage within $\pm 6V$, as can be
 seen by the signal output by C(s) in figure \ref{fig:cont-controller-voltage}.
 
@@ -392,6 +395,7 @@ Substituting the new coefficients of the tuned controller, as seen in equation
 \ref{eq:tuned_controller}, as well as the chosen sampling period, $T$, gives the following:
 
 \begin{equation}
+    \label{eq:discrete-z-domain-controller}
     C[z] = \frac{-4.9717z+4.8363}{2.012475z-1.987525}
 \end{equation}
 
@@ -418,5 +422,109 @@ controller step response.
     \includegraphics[width=0.7\textwidth]{"figures/discrete-controller-voltage-matlab.png"}
     \caption{Motor voltage when using the discrete controller; it does not encroach $\pm 6V$}
 \end{figure}
+
+\section{Question C}
+Now that the controller has been discretized, it can now be used to run the control
+system on the Arduino, which works digitally and in fixed sample intervals. However,
+there is one last step before the Arduino can use the controller: it must be
+transformed from the Z-domain into the sampling domain, which, unlike its counterpart,
+the time-domain, computes in fixed time intervals rather than continuous time. In order
+to do this, the controller must first be represented in terms of the signals which act
+as its input and output, as seen below:
+
+\begin{equation}
+    C[z] = \frac{U[z]}{E[z]} = \frac{-4.9717z+4.8363}{2.012475z-1.987525}
+\end{equation}
+
+Where U[z] is the discrete output of the controller, and E[z] is the discrete input.
+This equation must be rearranged as follows, to obtain a value for the output,
+based on the input:
+
+
+\begin{equation}
+    U[z] = \frac{-4.9717z+4.8363}{2.012475z-1.987525} E[k]
+\end{equation}
+
+Applying the inverse Z-transform:
+
+\begin{equation}
+    u[k] = 0.987602u[k-1] - 2.470441e[k] + 2.403160e[k-1].
+\end{equation}
+
+Where $k$ is an arbitrary sample, similar to how $t$ is an arbitrary continuous unit of time,
+in the time-domain. The above equation was implemented in the Arduino code, along with
+its appropriate sampling time of $0.0005s$. The entire system was then tested with the
+a square wave input signal at $50\%$ duty cycle and with a period of $2s$. The system
+time response is shown below in figure \ref{fig:real-controller-time-response}.
+
+\begin{figure}[H]
+    \centering
+    \label{fig:real-controller-time-response}
+    \includegraphics[width=0.7\textwidth]{"figures/real-controller-time-response.png"}
+    \caption{Step response of the motor}
+\end{figure}
+
+In order to ensure the time-domain characteristics required for this system are reached, figure
+\ref{fig:real-controller-time-response} must be further inspected. The $2\%$ settling time
+is reached almost exactly $0.25s$ after the step input is triggered. Additionally, the peak
+of the motor position is $0.72087 rad$, which is roughly $2\%$ of the unit step value; this meets
+the required maximum overshoot percentage of $5\%$. See below the exact values of the first recorded
+time-domain response from figure \ref{fig:real-controller-time-response}:
+
+\[
+    \begin{aligned}
+        \text{2\% range}                & = (0.672, 0.728),       \\
+        T_{\text{signal}}               & = 19.7017315\,\text{s}, \\
+        T_{s,\,2\%}                     & = 19.951723\,\text{s},  \\
+        T_{s,\,2\%} - T_{\text{signal}} & = 0.2499915\,\text{s}.
+    \end{aligned}
+\]
+
+Using the following equations to obtain $OS\%$:
+
+\begin{equation}
+    OS\% = \frac{u(t)_{max} - r(t)_{max}}{|r(t)|} * 100\%
+\end{equation}
+
+The following OS\% can be obtained:
+
+\begin{equation}
+    OS\% = 1.43928\%
+\end{equation}
+
+The figure below shows the motor voltage as well, which never exceeds $\pm 6V$:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{"figures/real-controller-motor-voltage.png"}
+    \caption{Step response and voltage of motor.}
+\end{figure}
+
+There are several differences between the performance of the simulated system
+and the real system when using the discretized controller. The $2\%$ settling time
+of the real system is slightly longer than the simulated one, which can likely be attributed
+to the time delay introduced by the controller running on real hardware rather than inside
+a simulation. This presents itself in the form of a very slight delay between the unit step and the
+beginning of the motor movement, as can be seen in figure \ref{fig:real-controller-zoomed}, which doesn't exist
+in the simulated system, in figure \ref{fig:step-response-post-tune}
+
+\begin{figure}[H]
+    \centering
+    \label{fig:real-controller-zoomed}
+    \includegraphics[width=0.7\textwidth]{"figures/real-controller-zoomed.png"}
+    \caption{Zoomed in chart of the motor step response.}
+\end{figure}
+
+The experimental overshoot percentage is smaller than the simulated system. This was expected,
+as the forces introduced in a real system, such as internal friction or air resistance, increase the
+damping ratio of the system, resulting a smaller overshoot. The motor voltage of the system was seen to
+be higher than that of the simulated system, which was, once again, expected behaviour. The constant voltage
+added to the motor voltage by the Arduino code was one culprit of this higher motor voltage, as was the
+controller having to add more voltage as a result of the aforementioned internal friction and air resistance
+which do not exist in the simulated system.
+
+\section{Question D}
+
+
 
 \end{document}

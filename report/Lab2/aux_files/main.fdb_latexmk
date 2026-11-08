@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1793991856.80959 "c:/Users/igora/Desktop/School/Class Material/4A/MTE 484/Lab/ball-and-beam-control/report/Lab2/main.tex" "output/main.pdf" "main" 1793991860.01839 0
+["pdflatex"] 1794170923.51541 "c:/Users/igora/Desktop/School/Class Material/4A/MTE 484/Lab/ball-and-beam-control/report/Lab2/main.tex" "output/main.pdf" "main" 1794170928.08342 0
   "C:/Users/igora/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1791223412 81273 13337b4d62cad88d859596ff40e690da ""
   "C:/Users/igora/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1711652101 24225046 cbcf1f0a3b8cf54ff36ae519816bfc4d ""
   "C:/Users/igora/AppData/Local/Programs/MiKTeX/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1233951848 1004 54797486969f23fa377b128694d548df ""
@@ -94,9 +94,9 @@
   "C:/Users/igora/AppData/Local/Programs/MiKTeX/tex/latex/rerunfilecheck/rerunfilecheck.sty" 1657800696 9714 ba3194bd52c8499b3f1e3eb91d409670 ""
   "C:/Users/igora/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/igora/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1700127522 55487 80a65caedd3722f4c20a14a69e785d8f ""
-  "aux_files/main.aux" 1793991859 2777 0051fdb564038a2efbe6bffcc26b98ca "pdflatex"
-  "aux_files/main.out" 1793991859 192 798cb646fdd6a445eb602dfbdb7eaa8d "pdflatex"
-  "c:/Users/igora/Desktop/School/Class Material/4A/MTE 484/Lab/ball-and-beam-control/report/Lab2/main.tex" 1793991855 17145 6a36bbaeaa554ef8ef8e19a87fea4bcf ""
+  "aux_files/main.aux" 1794170926 3673 e50fb0dc886b5ff3cdd4c9891e25888e "pdflatex"
+  "aux_files/main.out" 1794170926 384 785b955ac253515134ed4a20cb129ab4 "pdflatex"
+  "c:/Users/igora/Desktop/School/Class Material/4A/MTE 484/Lab/ball-and-beam-control/report/Lab2/main.tex" 1794170922 22158 4e1fc50134ba01123a2d5175aea3131a ""
   "figures/University_of_Waterloo_seal.png" 1790800352 71145 0990ef8eff9dd4ac76edf2c7b640b4b4 ""
   "figures/closed-loop-model-controller.png" 1793763183 40416 bac0dcf73c268e063afc72aeb996b0d3 ""
   "figures/cont-controller-voltage.png" 1793818193 41555 743263988213a9c0eff8daf2b5b24d36 ""
@@ -104,11 +104,14 @@
   "figures/discrete-controller-model.png" 1793991632 63456 f19f5c0c4edf2f15df43a154106c1f06 ""
   "figures/discrete-controller-voltage-matlab.png" 1793991791 46368 f9ab09e9ed78a86855b8b1122eaab66a ""
   "figures/discrete-step-response-matlab.png" 1793991714 35876 3a3bca2ba8d7a63e1f6fad27b52b6535 ""
+  "figures/real-controller-motor-voltage.png" 1794169891 62108 4b302296afff09a951d52f85a257b313 ""
+  "figures/real-controller-time-response.png" 1794006595 52804 1de5e23237bc54301d644b98aed23abf ""
+  "figures/real-controller-zoomed.png" 1794170682 25392 2486911a2a1fb26b85ac1278c3e94d3b ""
   "figures/step-response-post-tune.png" 1793781736 31698 c7d67497596ac79a31bced4bd6d48ab6 ""
   "figures/time-domain-meas-overshoot-pre-tweak.png" 1793764735 51559 5afdb0091b336ca3f03abbad82ad1ada ""
   "figures/time-domain-meas-settling-time-pre-tweak.png" 1793764645 51700 57efe172acc1b91ccd9525aa571b488f ""
   "figures/time-domain-response-pre-tweak.png" 1793764368 33768 f36d2ffc13fa01f05f526cc02b7de4ff ""
-  "main.tex" 1793991855 17145 6a36bbaeaa554ef8ef8e19a87fea4bcf ""
+  "main.tex" 1794170922 22158 4e1fc50134ba01123a2d5175aea3131a ""
   (generated)
   "aux_files/main.aux"
   "aux_files/main.log"
