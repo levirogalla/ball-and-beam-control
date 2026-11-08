@@ -5,6 +5,8 @@
 
 float pot_angle_raw_to_rad(int v);
 
+float sense_distance_raw_to_m(int v);
+
 float motor_controller_theta_to_volt_0(float theta_target, float theta);
 
 float motor_controller_theta_to_volt_1(float theta_target, float theta,

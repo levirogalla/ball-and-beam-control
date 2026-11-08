@@ -1,7 +1,10 @@
 #include "transfer.h"
 
-#define ANGLE_SLOPE -0.000359453251f
-#define ANGLE_INTERCEPT 1.75789534f
+#define ANGLE_SLOPE -3.66300473e-04f
+#define ANGLE_INTERCEPT 1.79615437f
+
+#define DISTANCE_SLOPE 1.0875162824513041e-05f
+#define DISTANCE_INTERCEPT 0.004743086849837932
 
 #define MOTOR_CONTROLLER_FIRST_ORDER_F0 -1.987525f
 #define MOTOR_CONTROLLER_FIRST_ORDER_F1 2.012475f
@@ -10,6 +13,10 @@
 
 float pot_angle_raw_to_rad(int v) {
   return (float)v * ANGLE_SLOPE + ANGLE_INTERCEPT;
+}
+
+float sense_distance_raw_to_m(int v) {
+  return (float)v * DISTANCE_SLOPE + DISTANCE_INTERCEPT;
 }
 
 float motor_controller_theta_to_volt_0(float theta_target, float theta) {
