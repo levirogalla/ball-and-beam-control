@@ -535,15 +535,21 @@ pushes in the direction of the motor movement, which means the controller does n
 direction, the beam pushes in the opposite direction of the motor movement, meaning the controller must use a higher
 voltage than before to overcome the stiction. While running this program, it was imperative that the ball was on the beam,
 as this was another factor that would contribute weight to the system, and so the stiction values needed
-to account for this. % talk about the code implementation.
+to account for this. \par
+The program implemented to determine the stiction values worked as followed. The inner-loop controller
+was used to set the motor angle to zero. Once there, the voltage required to do so was recorded and used
+as the basepoint. From here, the voltage would increase in very small increments until the motor
+was recorded to have moved in the desired direction. At this point, the program would stop and
+output the difference in voltage from the basepoint to the amount required to move the motor. This
+was done for both sides. \par
 
 As can be seen in figure \ref{fig:stiction-chart}, unless the motor voltage is set to zero, the output of the controller
 always causes the motor to move; this is the succesful result of finding the correct stiction values
 and accomodating for them in code.
 
 
-The values for stiction were found to be $-0.5763 V$ in the clockwise direction, and $-0.1034 V$ in
-the counter-clockwise position.
+The values for stiction were found to be $-0.5763 V$ in the counter-clockwise direction, and $-0.1034 V$ in
+the clockwise position.
 
 \begin{figure}[H]
     \centering
@@ -551,7 +557,12 @@ the counter-clockwise position.
 \end{figure}
 
 The emergency stop function, which stops the motor function at a certain motor position ($\pm 0.8 rad$)
-to stop potential damage to the system, was also implemented in the code. % talk about hte code implementation
+to stop potential damage to the system, was also implemented in the code, in the following way.
+The motor angle is checked continuously by the control interrupt. If its magnitude exceeds
+$0.8\ \mathrm{rad}$, the motor voltage is set to zero, the controller is disabled, and the
+system switches to the emergency stop state. This prevents the controller from driving the
+motor further and helps prevent damage to the system.
+
 As can be seen in figure \ref{fig:estop-chart}, the emergency stop works as intended.
 
 \begin{figure}[H]
@@ -663,31 +674,31 @@ inverse Laplace transform provides the following equation:
     \ddot{y}(t) = K_3 \phi (t)
 \end{equation}
 
-Which shows that $ddot{y}(t)$, which represents the second derivative of position, also known
+Which shows that $\ddot{y}(t)$, which represents the second derivative of position, also known
 as acceleration, is dependent on the beam angle. The knowledge of the basic kinematics
 equation which defines acceleration is shown below:
 
 \begin{equation}
     \label{eq:kinematics-acceleration}
-    y(t) = y_0 + dot{y}_0 (t-t_0) + \frac{1}{2} ddot{y} (t - t_0)^2
+    y(t) = y_0 + \dot{y}_0 (t-t_0) + \frac{1}{2} \ddot{y} (t - t_0)^2
 \end{equation}
 
 Substituting equation \ref{eq:time-domain-acceleration-relation} into equation \ref{eq:kinematics-acceleration}
 heeds the following equation:
 
 \begin{equation}
-    y(t) = y_0 + dot{y}_0 (t - t_0) + \frac{1}{2} K_3 \phi (t - t_0)^2
+    y(t) = y_0 + \dot{y}_0 (t - t_0) + \frac{1}{2} K_3 \phi (t - t_0)^2
 \end{equation}
 
 Isolating for $K_3$ gives the following:
 
 \begin{equation}
     \label{eq:k3-isolated}
-    K_3 = 2 \frac{y - y_0 - dot{y}_0 (t-t_0)}{\phi (t-t_0)^2}
+    K_3 = 2 \frac{y - y_0 - \dot{y}_0 (t-t_0)}{\phi (t-t_0)^2}
 \end{equation}
 
 Where $y$ is the current position of the ball, $y_0$ is the initial position of the ball,
-$dot{y}_0$ is the initial speed of the ball, $\phi$ is the beam angle for the given
+$\dot{y}_0$ is the initial speed of the ball, $\phi$ is the beam angle for the given
 experiment, $t_0$ is the initial time the ball is placed
 and $t$ is the current time at which $y$ is being measured. \par
 
@@ -721,7 +732,7 @@ including all six different beam angles.
     \caption{Experimental determination of $K_3$}
 \end{figure}
 
-From the above data, the values for $y$, $y_0$, $dot{y}_0$, $t_0$, $t$ and $\phi$ can be recorded for
+From the above data, the values for $y$, $y_0$, $\dot{y}_0$, $t_0$, $t$ and $\phi$ can be recorded for
 each experiment, as is shown in the table below:
 
 \begin{table}[htbp]
@@ -777,6 +788,14 @@ Averaging out the values gives a final result for $K_3$:
     K_{3_{avg}} = -0.14484227
 \]
 
+\section{Question G}
+\begin{figure}
+
+    \centering
+    \includegraphics[width=1.2\textwidth, angle=270]{figures/control_system_block_diagram.png}
+    \caption{Block Diagram}
+\end{figure}
+
 \clearpage
 \section*{References}
 \begin{enumerate}
@@ -785,7 +804,42 @@ Averaging out the values gives a final result for $K_3$:
 
 \section{Appendices}
 
-\subsection{Appendix A: Code}
+\subsection{Appendix A: Lab 1 Motor Parameters}
+
+The following table summarizes the motor and gear-angle calibration values
+determined in Lab 1. The $K_1$ and $\tau$ values for $K_p=-28$ are used in
+the motor model in this report.
+
+\begin{table}[htbp]
+    \centering
+    \small
+    \caption{Motor and gear-angle calibration values from Lab 1}
+    \label{tab:lab1-parameters}
+    \begin{tabular}{lll}
+        \toprule
+        \textbf{Parameter}             & \textbf{Value}    & \textbf{Units / description}         \\
+        \midrule
+        $K_1$ ($K_p=-25$)              & $-1.6413$         & $\mathrm{rad/(V\,s)}$                \\
+        $\tau$ ($K_p=-25$)             & $0.019909$        & $\mathrm{s}$                         \\
+        $K_1$ ($K_p=-28$)              & $-1.8906$         & $\mathrm{rad/(V\,s)}$; used in Lab 2 \\
+        $\tau$ ($K_p=-28$)             & $0.018107$        & $\mathrm{s}$; used in Lab 2          \\
+        $K_1$ ($K_p=-30$)              & $-1.8103$         & $\mathrm{rad/(V\,s)}$                \\
+        $\tau$ ($K_p=-30$)             & $0.018144$        & $\mathrm{s}$                         \\
+        Positive stiction offset $v_+$ & $+0.120$          & $\mathrm{V}$                         \\
+        Negative stiction offset $v_-$ & $-0.101$          & $\mathrm{V}$                         \\
+        Gear-angle scale $m$           & $-0.000359453251$ & $\mathrm{rad/count}$                 \\
+        Gear-angle offset $b$          & $1.75789534$      & $\mathrm{rad}$                       \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+The gear-angle conversion is
+\[
+    \theta = -0.000359453251\,p_{\mathrm{sensor}} + 1.75789534,
+\]
+where $p_{\mathrm{sensor}}$ is the measured sensor value in ADC counts.
+
+\subsection{Appendix B: Code}
 
 \lstinputlisting[
     language=C++,
