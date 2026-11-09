@@ -452,6 +452,17 @@ Applying the inverse Z-transform:
     u[k] = 0.987602u[k-1] - 2.470441e[k] + 2.403160e[k-1].
 \end{equation}
 
+Note, this can also be written as follows:
+
+\begin{equation}
+    u[k] = \frac{-4.9717}{2.012475}q[k] + \frac{4.8363}{2.012475}q[k-1]
+\end{equation}
+\begin{equation}
+    q[k] = e[k] - \frac{-1.987525}{2.012475}q[k-1]
+\end{equation}
+
+where $q[k]$ represents the internal state of the system.
+
 Where $k$ is an arbitrary sample, similar to how $t$ is an arbitrary continuous unit of time,
 in the time-domain. The above equation was implemented in the Arduino code, along with
 its appropriate sampling time of $0.0005s$. The entire system was then tested with the
