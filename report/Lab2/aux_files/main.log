@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.3.28)  8 NOV 2026 23:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.3.28)  8 NOV 2026 23:42
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -533,74 +533,73 @@ l.438 \end{equation}
 <figures/real-controller-time-response.png, id=156, 989.6975pt x 611.28375pt>
 File: figures/real-controller-time-response.png Graphic file (type png)
 <use figures/real-controller-time-response.png>
-Package pdftex.def Info: figures/real-controller-time-response.png  used on input line 464.
+Package pdftex.def Info: figures/real-controller-time-response.png  used on input line 475.
 (pdftex.def)             Requested size: 328.82707pt x 203.09538pt.
  [9
 pdfTeX warning (ext4): destination with the same identifier (name{figure.10}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.492 \begin{equation}
-                       <./figures/real-controller-time-response.png>]
-<figures/real-controller-motor-voltage.png, id=169, 859.21pt x 530.98375pt>
+l.493 \]
+         <./figures/real-controller-time-response.png>]
+<figures/real-controller-motor-voltage.png, id=170, 859.21pt x 530.98375pt>
 File: figures/real-controller-motor-voltage.png Graphic file (type png)
 <use figures/real-controller-motor-voltage.png>
-Package pdftex.def Info: figures/real-controller-motor-voltage.png  used on input line 500.
+Package pdftex.def Info: figures/real-controller-motor-voltage.png  used on input line 511.
 (pdftex.def)             Requested size: 328.82707pt x 203.20999pt.
-<figures/real-controller-zoomed.png, id=172, 859.21pt x 530.98375pt>
+<figures/real-controller-zoomed.png, id=173, 859.21pt x 530.98375pt>
 File: figures/real-controller-zoomed.png Graphic file (type png)
 <use figures/real-controller-zoomed.png>
-Package pdftex.def Info: figures/real-controller-zoomed.png  used on input line 515.
+Package pdftex.def Info: figures/real-controller-zoomed.png  used on input line 526.
 (pdftex.def)             Requested size: 328.82707pt x 203.20999pt.
  [10
 pdfTeX warning (ext4): destination with the same identifier (name{figure.11}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.526 
-      
+l.529 
+       <./figures/real-controller-motor-voltage.png>] [11
 pdfTeX warning (ext4): destination with the same identifier (name{figure.12}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.526 
-       <./figures/real-controller-motor-voltage.png> <./figures/real-controller-zoomed.png>] [11] [12]
-<figures/acceleration-test.png, id=205, 769.87625pt x 475.7775pt>
+l.562 T
+       he values for stiction were found to be $-0.5763 V$ in the counter-cl... <./figures/real-controller-zoomed.png>] [12] [13]
+<figures/acceleration-test.png, id=216, 769.87625pt x 475.7775pt>
 File: figures/acceleration-test.png Graphic file (type png)
 <use figures/acceleration-test.png>
-Package pdftex.def Info: figures/acceleration-test.png  used on input line 731.
+Package pdftex.def Info: figures/acceleration-test.png  used on input line 742.
 (pdftex.def)             Requested size: 328.82707pt x 203.21548pt.
- [13]
-<figures/control_system_block_diagram.png, id=216, 1191.45125pt x 425.59pt>
+<figures/control_system_block_diagram.png, id=218, 1191.45125pt x 425.59pt>
 File: figures/control_system_block_diagram.png Graphic file (type png)
 <use figures/control_system_block_diagram.png>
-Package pdftex.def Info: figures/control_system_block_diagram.png  used on input line 795.
+Package pdftex.def Info: figures/control_system_block_diagram.png  used on input line 806.
 (pdftex.def)             Requested size: 563.70459pt x 201.35858pt.
  [14
 pdfTeX warning (ext4): destination with the same identifier (name{figure.13}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.797 \end{figure}
-                  
+l.810 \clearpage
+                
 pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.797 \end{figure}
-                  
-pdfTeX warning (ext4): destination with the same identifier (name{table.2}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.797 \end{figure}
-                   <./figures/acceleration-test.png>] [15] [16
+l.810 \clearpage
+                 <./figures/acceleration-test.png>] [15
 pdfTeX warning (ext4): destination with the same identifier (name{figure.14}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.799 \clearpage
-                 <./figures/control_system_block_diagram.png>] (C:\Users\igora\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
+l.810 \clearpage
+                 <./figures/control_system_block_diagram.png>] [16
+pdfTeX warning (ext4): destination with the same identifier (name{table.2}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.810 \clearpage
+                ] (C:\Users\igora\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
 File: lstlang1.sty 2023/02/27 1.9 listings language file
 ) (C:\Users\igora\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
 File: lstlang1.sty 2023/02/27 1.9 listings language file
 ) (C:\Users\igora\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstmisc.sty
 File: lstmisc.sty 2023/02/27 1.9 (Carsten Heinz)
 )
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 850.
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 861.
  (../../main/main.ino
 LaTeX Font Info:    Trying to load font information for OML+cmr on input line 6.
  (C:\Users\igora\AppData\Local\Programs\MiKTeX\tex/latex/base\omlcmr.fd
@@ -633,17 +632,17 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: B7566185822392B8A2E19FECC2470719;1151.
  ) 
 Here is how much of TeX's memory you used:
- 13967 strings out of 474486
- 217656 string characters out of 5743755
+ 13969 strings out of 474486
+ 217682 string characters out of 5743755
  2181542 words of memory out of 5000000
  35327 multiletter control sequences out of 15000+600000
  570533 words of font info for 82 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,18n,79p,637b,2178s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\igora\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcti1095.pk> <C:\Users\igora\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1095.pk><C:/Users/igora/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/igora/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/igora/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/igora/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/igora/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/igora/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/igora/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/igora/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Users/igora/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/igora/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/igora/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/igora/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/igora/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/igora/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/igora/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/igora/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/igora/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/igora/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on "c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\Lab2\aux_files\main.pdf" (32 pages, 1070986 bytes).
+Output written on "c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\Lab2\aux_files\main.pdf" (32 pages, 1071849 bytes).
 PDF statistics:
- 1161 PDF objects out of 1200 (max. 8388607)
- 720 named destinations out of 1000 (max. 500000)
+ 1165 PDF objects out of 1200 (max. 8388607)
+ 722 named destinations out of 1000 (max. 500000)
  161 words of extra memory for PDF output out of 10000 (max. 10000000)
 

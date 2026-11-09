@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1794198702.51976 "c:/Users/igora/Desktop/School/Class Material/4A/MTE 484/Lab/ball-and-beam-control/report/Lab2/main.tex" "output/main.pdf" "main" 1794198707.05686 0
+["pdflatex"] 1794199346.33439 "c:/Users/igora/Desktop/School/Class Material/4A/MTE 484/Lab/ball-and-beam-control/report/Lab2/main.tex" "output/main.pdf" "main" 1794199349.22635 0
   "../../main/main.ino" 1794170956 4164 baa802b5196d5f58a175a5fb5fc939d5 ""
   "../../main/src/geeWhiz/geeWhiz.cpp" 1791254388 1431 2bb67ec6123aedcc5d63b6054fdf1a01 ""
   "../../main/src/geeWhiz/geeWhiz.h" 1790804651 373 194fe4b81557be7eceb8a5131e4c3688 ""
@@ -131,9 +131,9 @@
   "C:/Users/igora/AppData/Local/Programs/MiKTeX/tex/latex/rerunfilecheck/rerunfilecheck.sty" 1657800696 9714 ba3194bd52c8499b3f1e3eb91d409670 ""
   "C:/Users/igora/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/igora/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1700127522 55487 80a65caedd3722f4c20a14a69e785d8f ""
-  "aux_files/main.aux" 1794198706 7141 ea68374117a9a4068ab34ce1ba624449 "pdflatex"
-  "aux_files/main.out" 1794198706 1151 b7566185822392b8a2e19fecc2470719 "pdflatex"
-  "c:/Users/igora/Desktop/School/Class Material/4A/MTE 484/Lab/ball-and-beam-control/report/Lab2/main.tex" 1794198701 38125 afb7079e2a75ec5edfe5823b67111a27 ""
+  "aux_files/main.aux" 1794199348 7141 d07faff81cf1f0501b1a5d15f2d52384 "pdflatex"
+  "aux_files/main.out" 1794199348 1151 b7566185822392b8a2e19fecc2470719 "pdflatex"
+  "c:/Users/igora/Desktop/School/Class Material/4A/MTE 484/Lab/ball-and-beam-control/report/Lab2/main.tex" 1794199336 38426 de7d90027d88895c6e3b30af52aac5bc ""
   "figures/University_of_Waterloo_seal.png" 1790800352 71145 0990ef8eff9dd4ac76edf2c7b640b4b4 ""
   "figures/acceleration-test.png" 1794193941 56373 646f8164bea4332b541d48cca35984ef ""
   "figures/closed-loop-model-controller.png" 1793763183 40416 bac0dcf73c268e063afc72aeb996b0d3 ""
@@ -150,7 +150,7 @@
   "figures/time-domain-meas-overshoot-pre-tweak.png" 1793764735 51559 5afdb0091b336ca3f03abbad82ad1ada ""
   "figures/time-domain-meas-settling-time-pre-tweak.png" 1793764645 51700 57efe172acc1b91ccd9525aa571b488f ""
   "figures/time-domain-response-pre-tweak.png" 1793764368 33768 f36d2ffc13fa01f05f526cc02b7de4ff ""
-  "main.tex" 1794198701 38125 afb7079e2a75ec5edfe5823b67111a27 ""
+  "main.tex" 1794199336 38426 de7d90027d88895c6e3b30af52aac5bc ""
   (generated)
   "aux_files/main.aux"
   "aux_files/main.log"
