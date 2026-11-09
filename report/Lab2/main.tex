@@ -9,6 +9,7 @@
 \usepackage{listings}                   % for showing code
 \usepackage{xcolor}                     % for showing custom colours in code
 \usepackage{float}                      % for adding [H] to figures, making them stay in place
+\usepackage{booktabs}                   % for table lines
 
 % Custom colours for code files
 \definecolor{background}{RGB}{245, 245, 245} % Light grey background
@@ -483,7 +484,7 @@ time-domain response from figure \ref{fig:real-controller-time-response}:
 Using the following equations to obtain $OS\%$:
 
 \begin{equation}
-    OS\% = \frac{u(t)_{max} - r(t)_{max}}{|r(t)|} * 100\%
+    OS\% = \frac{u(t)_{max} - r(t)_{max}}{|r(t)|} \times 100\%
 \end{equation}
 
 The following OS\% can be obtained:
@@ -524,6 +525,340 @@ controller having to add more voltage as a result of the aforementioned internal
 which do not exist in the simulated system.
 
 \section{Question D}
+
+The stiction values from Lab 1 were found to no longer hold up when the system had increased weight due to
+the beam now being attached. The new stiction values were found in the same way as before: a program
+was used to increase the motor voltage from zero in very small increments until the motor began to move -
+this was done in both directions. The values were changed for both directions, since the beam being attached
+to the motor gear changes the voltage required for both directions. In the clockwise direction, the beam
+pushes in the direction of the motor movement, which means the controller does not need to accout for as much stiction as before. In the counter-clockwise
+direction, the beam pushes in the opposite direction of the motor movement, meaning the controller must use a higher
+voltage than before to overcome the stiction. While running this program, it was imperative that the ball was on the beam,
+as this was another factor that would contribute weight to the system, and so the stiction values needed
+to account for this. % talk about the code implementation.
+
+As can be seen in figure \ref{fig:stiction-chart}, unless the motor voltage is set to zero, the output of the controller
+always causes the motor to move; this is the succesful result of finding the correct stiction values
+and accomodating for them in code.
+
+
+The values for stiction were found to be $-0.5763 V$ in the clockwise direction, and $-0.1034 V$ in
+the counter-clockwise position.
+
+\begin{figure}[H]
+    \centering
+    \label{fig:stiction-chart}
+\end{figure}
+
+The emergency stop function, which stops the motor function at a certain motor position ($\pm 0.8 rad$)
+to stop potential damage to the system, was also implemented in the code. % talk about hte code implementation
+As can be seen in figure \ref{fig:estop-chart}, the emergency stop works as intended.
+
+\begin{figure}[H]
+    \centering
+    \label{fig:estop-chart}
+\end{figure}
+
+\section{Question E}
+
+Now that the inner control loop, which transforms the desired motor angle values into accurate
+motor movement, is almost complete, it is time to start working towards the outer control loop,
+which must determine the motor angle required in order to move the ball towards a specific
+position on the beam. A required step in this process is to have an effective method
+of determining the position of the ball on the beam; this will be used in the outer
+loop's error measurements. The beam has a built in sensor, whose output represents the current
+position of the ball; however, the sensor must be characterized in order to determine
+how the sensor value corresponds to the position of the ball on the beam in meters. \par
+
+This can be done using the following formula as a conversion between sensor output and
+ball position:
+
+\begin{equation}
+    \label{eq:beam-sensor-linearization}
+    p_{radians} = m \times p_{sensor} + b
+\end{equation}
+
+Where the $m$ and $b$ values must be determined through a system of equations, using
+experimental values of $p_{meters}$ and $p_{sensor}$ to do so. \par
+
+The position of the ball on the beam was manually changed to two different points:
+one at each the furthermost left and right side of the beam. These two points are
+sufficient to determine a linear relationship. Using the measurement convention
+given in the lab manual, it must be noted that the ball will never reach $0m$ or $L m$,
+where $L$ is the length of the beam; this is due to the small stoppers that rest at each
+end of the beam to ensure the ball doesn't fall off.  At each point,
+the distance from the beam origin was measured, and the value printed into the serial monitor
+was also noted, providing values of $p_{meters}$ in meters and $p_{sensor}$ in ADC counts. It
+should also be mentioned that each ADC "value" recorded in this report is actually the
+average of multiple ADC values at that specific ball position, effectively reducing the effect of
+ADC and sensor noise.\par
+The following values were noted:
+
+\[
+    \begin{aligned}
+        p_{meters_{0}} = 0.030m, p_{sensor_{0}} = 2322.44
+        p_{meters_{1}} = 0.389m, p_{sensor_{1}} = 35333.44
+    \end{aligned}
+\]
+
+The following system of equations was then made from the above values:
+
+\begin{equation}
+    \begin{bmatrix}
+        0.030 \\
+        0.389
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        2322.44  & 1 \\
+        35333.44 & 1
+    \end{bmatrix}
+    \begin{bmatrix}
+        m \\
+        b
+    \end{bmatrix}
+\end{equation}
+
+The above system of equations was solved for $m$ and $b$ resulting in the following values:
+
+\begin{equation}
+    \label{eq:beam-sensor-values}
+    m = 1.0875 \times 10^{-5}, b = 4.7431 \times 10^{-3}
+\end{equation}
+
+After implemented equation \ref{eq:beam-sensor-linearization} into the Arduino code,
+using the values provided from
+equation \ref{eq:beam-sensor-values}, the ball position could now be determined using
+the beam sensor output.
+
+\section{Question F}
+
+Now that the ball position can reliably be determined, it is now necessary to determine
+the relation between the input and the output of the outer-loop controller, which will be
+the ball location and the motor gear angle, respectively. This transfer function has two parts:
+the first is the transfer function between the motor gear angle and the beam angle. This has
+already been determined in the lab manual to be the equation
+\ref{eq:motor-angle-beam-angle-transfer-function}.
+
+\begin{equation}
+    \label{eq:motor-angle-beam-angle-transfer-function}
+    \frac{\Phi (s)}{\Theta (s)} = 0.0609
+\end{equation}
+
+Where $\Phi(s)$ represents the beam angle, and $\Theta(s)$ represents the motor angle. The second
+part is the relation between the beam angle and the ball position, which takes the form
+of equation \ref{eq:beam-angle-ball-position-transfer-function}.
+
+\begin{equation}
+    \label{eq:beam-angle-ball-position-transfer-function}
+    \frac{Y(s)}{\Phi (s)} = \frac{K_3}{s^2}
+\end{equation}
+
+Where $Y(s)$ represents the position of the ball on the beam.
+Rearranging equation \ref{eq:beam-angle-ball-position-transfer-function} and applying the
+inverse Laplace transform provides the following equation:
+
+\begin{equation}
+    \label{eq:time-domain-acceleration-relation}
+    \ddot{y}(t) = K_3 \phi (t)
+\end{equation}
+
+Which shows that $ddot{y}(t)$, which represents the second derivative of position, also known
+as acceleration, is dependent on the beam angle. The knowledge of the basic kinematics
+equation which defines acceleration is shown below:
+
+\begin{equation}
+    \label{eq:kinematics-acceleration}
+    y(t) = y_0 + dot{y}_0 (t-t_0) + \frac{1}{2} ddot{y} (t - t_0)^2
+\end{equation}
+
+Substituting equation \ref{eq:time-domain-acceleration-relation} into equation \ref{eq:kinematics-acceleration}
+heeds the following equation:
+
+\begin{equation}
+    y(t) = y_0 + dot{y}_0 (t - t_0) + \frac{1}{2} K_3 \phi (t - t_0)^2
+\end{equation}
+
+Isolating for $K_3$ gives the following:
+
+\begin{equation}
+    \label{eq:k3-isolated}
+    K_3 = 2 \frac{y - y_0 - dot{y}_0 (t-t_0)}{\phi (t-t_0)^2}
+\end{equation}
+
+Where $y$ is the current position of the ball, $y_0$ is the initial position of the ball,
+$dot{y}_0$ is the initial speed of the ball, $\phi$ is the beam angle for the given
+experiment, $t_0$ is the initial time the ball is placed
+and $t$ is the current time at which $y$ is being measured. \par
+
+The experiments were then performed to determine $K_3$. At a given beam angle and initial time, the ball would
+be placed at a given initial position, at the initial speed of zero. At any arbitrary point of
+time in the drop, the position and its time can be inputted into the equation, allowing for the
+value of $K_3$ to be solved. This experiment was performed six times, at three different positive
+beam angles and three different negative angles, to ensure that the value of $K_3$ was consistent
+across all different beam angles. The following beam angles were chosen, as they were determined
+to be representative of those used while controlling the ball position. The inner-loop controller
+was used to fix the beam at a specific angle, allowing for the experiment to take place.
+
+\[
+    \begin{aligned}
+        \phi_0 & = 0.2 rad,  &
+        \phi_1 & = -0.2 rad, &
+        \phi_2 & = 0.3 rad,    \\
+        \phi_3 & = -0.3 rad, &
+        \phi_4 & = 0.4 rad,  &
+        \phi_5 & = -0.4 rad
+    \end{aligned}
+\]
+
+The figure below shows the entire experiment process,
+including all six different beam angles.
+
+\begin{figure}[H]
+    \centering
+    \label{fig:acceleration-test}
+    \includegraphics[width=0.7\textwidth]{figures/acceleration-test.png}
+    \caption{Experimental determination of $K_3$}
+\end{figure}
+
+From the above data, the values for $y$, $y_0$, $dot{y}_0$, $t_0$, $t$ and $\phi$ can be recorded for
+each experiment, as is shown in the table below:
+
+\begin{table}[htbp]
+    \centering
+    \small
+    \setlength{\tabcolsep}{3pt}
+    \caption{Ball position - Gear Angle test}
+    \label{tab:acceleration-test}
+    \begin{tabular}{cccccc}
+        \toprule
+        \shortstack{\textbf{Beam angle}                            \\$\boldsymbol{\phi}$ \textbf{[rad]}} &
+        \shortstack{\textbf{Current ball}                          \\\textbf{position} $y$ \textbf{[m]}} &
+        \shortstack{\textbf{Initial ball}                          \\\textbf{position} $y_0$ \textbf{[m]}} &
+        \shortstack{\textbf{Initial ball speed}                    \\$\dot{y}_0$ \textbf{[m/s]}} &
+        \shortstack{\textbf{Current time}                          \\$t$ \textbf{[s]}} &
+        \shortstack{\textbf{Initial time}                          \\$t_0$ \textbf{[s]}} \\
+        \midrule
+        0.2  & 0.11829066 & 0.17151371 & 0 & 7.321955  & 5.187743  \\
+        -0.2 & 0.0964533  & 0.01474824 & 0 & 19.195892 & 15.310882 \\
+        0.3  & 0.05731362 & 0.16755515 & 0 & 28.310871 & 26.289441 \\
+        -0.3 & 0.14961113 & 0.01784766 & 0 & 38.823754 & 36.122445 \\
+        0.4  & 0.06996144 & 0.15256917 & 0 & 48.298498 & 47.134454 \\
+        -0.4 & 0.14098713 & 0.01495486 & 0 & 58.162953 & 55.559953 \\
+
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Substituting the above values into equation \ref{eq:k3-isolated} provides the following values for
+$K_3$:
+
+\begin{table}[htbp]
+    \centering
+    \caption{Experimental values of $K_3$}
+    \label{tab:k3-results}
+    \begin{tabular}{cc}
+        \toprule
+        \textbf{Beam angle $\phi$ [rad]} & \textbf{$K_3$ constant} \\
+        \midrule
+        0.2                              & -0.11684890             \\
+        -0.2                             & -0.05413332             \\
+        0.3                              & -0.17986082             \\
+        -0.3                             & -0.12038025             \\
+        0.4                              & -0.30482592             \\
+        -0.4                             & -0.09300439             \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Averaging out the values gives a final result for $K_3$:
+
+\[
+    K_{3_{avg}} = -0.14484227
+\]
+
+\clearpage
+\section*{References}
+\begin{enumerate}
+    \item S. Livera, \emph{MTE 484: Digital Control Systems --- Lab 2}, Fall 2026.
+\end{enumerate}
+
+\section{Appendices}
+
+\subsection{Appendix A: Code}
+
+\lstinputlisting[
+    language=C++,
+    caption={main.ino},
+    backgroundcolor=\color{background},
+    breaklines=true,
+    frame=single
+]{../../main/main.ino}
+
+\lstinputlisting[
+    language=C++,
+    caption={motor.h},
+    backgroundcolor=\color{background},
+    breaklines=true,
+    frame=single
+]{../../main/src/motor.h}
+
+\lstinputlisting[
+    language=C++,
+    caption={motor.cpp},
+    backgroundcolor=\color{background},
+    breaklines=true,
+    frame=single
+]{../../main/src/motor.cpp}
+
+\lstinputlisting[
+    language=C++,
+    caption={position.h},
+    backgroundcolor=\color{background},
+    breaklines=true,
+    frame=single
+]{../../main/src/position.h}
+
+\lstinputlisting[
+    language=C++,
+    caption={position.cpp},
+    backgroundcolor=\color{background},
+    breaklines=true,
+    frame=single
+]{../../main/src/position.cpp}
+
+\lstinputlisting[
+    language=C++,
+    caption={transfer.h},
+    backgroundcolor=\color{background},
+    breaklines=true,
+    frame=single
+]{../../main/src/transfer.h}
+
+\lstinputlisting[
+    language=C++,
+    caption={transfer.cpp},
+    backgroundcolor=\color{background},
+    breaklines=true,
+    frame=single
+]{../../main/src/transfer.cpp}
+
+\lstinputlisting[
+    language=C++,
+    caption={geeWhiz.h},
+    backgroundcolor=\color{background},
+    breaklines=true,
+    frame=single
+]{../../main/src/geeWhiz/geeWhiz.h}
+
+\lstinputlisting[
+    language=C++,
+    caption={geeWhiz.cpp},
+    backgroundcolor=\color{background},
+    breaklines=true,
+    frame=single
+]{../../main/src/geeWhiz/geeWhiz.cpp}
+
 
 
 
