@@ -62,7 +62,41 @@
 \end{center}
 \clearpage
 
+\section{Lab 1 Parameters}
+The following table summarizes the motor and gear-angle calibration values
+determined in Lab 1. The $K_1$ and $\tau$ values for $K_p=-28$ are used in
+the motor model in this report.
 
+\begin{table}[H]
+    \centering
+    \small
+    \caption{Motor and gear-angle calibration values from Lab 1}
+    \label{tab:lab1-parameters}
+    \begin{tabular}{lll}
+        \toprule
+        \textbf{Parameter}             & \textbf{Value}    & \textbf{Units / description}         \\
+        \midrule
+        $K_1$ ($K_p=-25$)              & $-1.6413$         & $\mathrm{rad/(V\,s)}$                \\
+        $\tau$ ($K_p=-25$)             & $0.019909$        & $\mathrm{s}$                         \\
+        $K_1$ ($K_p=-28$)              & $-1.8906$         & $\mathrm{rad/(V\,s)}$; used in Lab 2 \\
+        $\tau$ ($K_p=-28$)             & $0.018107$        & $\mathrm{s}$; used in Lab 2          \\
+        $K_1$ ($K_p=-30$)              & $-1.8103$         & $\mathrm{rad/(V\,s)}$                \\
+        $\tau$ ($K_p=-30$)             & $0.018144$        & $\mathrm{s}$                         \\
+        Positive stiction offset $v_+$ & $+0.120$          & $\mathrm{V}$                         \\
+        Negative stiction offset $v_-$ & $-0.101$          & $\mathrm{V}$                         \\
+        Gear-angle scale $m$           & $-0.000359453251$ & $\mathrm{rad/count}$                 \\
+        Gear-angle offset $b$          & $1.75789534$      & $\mathrm{rad}$                       \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+The gear-angle conversion is
+\[
+    \theta = -0.000359453251\,p_{\mathrm{sensor}} + 1.75789534,
+\]
+where $p_{\mathrm{sensor}}$ is the measured sensor value in ADC counts.
+
+\clearpage
 \section{Question A}
 The controller must be designed in a way that allows the closed loop system to
 display the time-domain characteristics required, which are as follows: the
@@ -350,6 +384,8 @@ seen by the signal output by C(s) in figure \ref{fig:cont-controller-voltage}.
     \caption{Motor voltage shown to be within $\pm 6V$ when using the tuned controller.}
 \end{figure}
 
+\clearpage
+\clearpage
 \section{Question B}
 
 The discretization of a controller is necessary to allow a microcontroller, such as the Arduino Mega,
@@ -424,6 +460,7 @@ controller step response.
     \caption{Motor voltage when using the discrete controller; it does not encroach $\pm 6V$}
 \end{figure}
 
+\clearpage
 \section{Question C}
 Now that the controller has been discretized, it can now be used to run the control
 system on the Arduino, which works digitally and in fixed sample intervals. However,
@@ -535,6 +572,7 @@ added to the motor voltage by the Arduino code was one culprit of this higher mo
 controller having to add more voltage as a result of the aforementioned internal friction and air resistance
 which do not exist in the simulated system.
 
+\clearpage
 \section{Question D}
 
 The stiction values from Lab 1 were found to no longer hold up when the system had increased weight due to
@@ -564,6 +602,8 @@ the clockwise position.
 
 \begin{figure}[H]
     \centering
+    \includegraphics[width=0.85\textwidth]{figures/stiction-is-working.png}
+    \caption{Motor response showing the effect of stiction compensation.}
     \label{fig:stiction-chart}
 \end{figure}
 
@@ -581,6 +621,7 @@ As can be seen in figure \ref{fig:estop-chart}, the emergency stop works as inte
     \label{fig:estop-chart}
 \end{figure}
 
+\clearpage
 \section{Question E}
 
 Now that the inner control loop, which transforms the desired motor angle values into accurate
@@ -653,6 +694,7 @@ using the values provided from
 equation \ref{eq:beam-sensor-values}, the ball position could now be determined using
 the beam sensor output.
 
+\clearpage
 \section{Question F}
 
 Now that the ball position can reliably be determined, it is now necessary to determine
@@ -799,6 +841,7 @@ Averaging out the values gives a final result for $K_3$:
     K_{3_{avg}} = -0.14484227
 \]
 
+\clearpage
 \section{Question G}
 \begin{figure}
 
@@ -813,44 +856,10 @@ Averaging out the values gives a final result for $K_3$:
     \item S. Livera, \emph{MTE 484: Digital Control Systems --- Lab 2}, Fall 2026.
 \end{enumerate}
 
+\clearpage
 \section{Appendices}
 
-\subsection{Appendix A: Lab 1 Motor Parameters}
-
-The following table summarizes the motor and gear-angle calibration values
-determined in Lab 1. The $K_1$ and $\tau$ values for $K_p=-28$ are used in
-the motor model in this report.
-
-\begin{table}[htbp]
-    \centering
-    \small
-    \caption{Motor and gear-angle calibration values from Lab 1}
-    \label{tab:lab1-parameters}
-    \begin{tabular}{lll}
-        \toprule
-        \textbf{Parameter}             & \textbf{Value}    & \textbf{Units / description}         \\
-        \midrule
-        $K_1$ ($K_p=-25$)              & $-1.6413$         & $\mathrm{rad/(V\,s)}$                \\
-        $\tau$ ($K_p=-25$)             & $0.019909$        & $\mathrm{s}$                         \\
-        $K_1$ ($K_p=-28$)              & $-1.8906$         & $\mathrm{rad/(V\,s)}$; used in Lab 2 \\
-        $\tau$ ($K_p=-28$)             & $0.018107$        & $\mathrm{s}$; used in Lab 2          \\
-        $K_1$ ($K_p=-30$)              & $-1.8103$         & $\mathrm{rad/(V\,s)}$                \\
-        $\tau$ ($K_p=-30$)             & $0.018144$        & $\mathrm{s}$                         \\
-        Positive stiction offset $v_+$ & $+0.120$          & $\mathrm{V}$                         \\
-        Negative stiction offset $v_-$ & $-0.101$          & $\mathrm{V}$                         \\
-        Gear-angle scale $m$           & $-0.000359453251$ & $\mathrm{rad/count}$                 \\
-        Gear-angle offset $b$          & $1.75789534$      & $\mathrm{rad}$                       \\
-        \bottomrule
-    \end{tabular}
-\end{table}
-
-The gear-angle conversion is
-\[
-    \theta = -0.000359453251\,p_{\mathrm{sensor}} + 1.75789534,
-\]
-where $p_{\mathrm{sensor}}$ is the measured sensor value in ADC counts.
-
-\subsection{Appendix B: Code}
+\subsection{Appendix A: Code}
 
 \lstinputlisting[
     language=C++,
