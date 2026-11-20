@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.3.28)  20 NOV 2026 11:56
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2024.3.28)  20 NOV 2026 13:33
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -404,7 +404,7 @@ Package hyperref Info: Link coloring OFF on input line 17.
 \openout3 = `main.out'.
 
 \c@lstlisting=\count308
-<../common/figures/University_of_Waterloo_seal.png, id=7, 501.875pt x 501.875pt>
+<../common/figures/University_of_Waterloo_seal.png, id=11, 501.875pt x 501.875pt>
 File: ../common/figures/University_of_Waterloo_seal.png Graphic file (type png)
 <use ../common/figures/University_of_Waterloo_seal.png>
 Package pdftex.def Info: ../common/figures/University_of_Waterloo_seal.png  used on input line 26.
@@ -412,7 +412,7 @@ Package pdftex.def Info: ../common/figures/University_of_Waterloo_seal.png  used
  [1
 
 {C:/Users/igora/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map} <../common/figures/University_of_Waterloo_seal.png>]
-<../common/figures/declaration.png, id=17, 240.9pt x 277.035pt>
+<../common/figures/declaration.png, id=21, 240.9pt x 277.035pt>
 File: ../common/figures/declaration.png Graphic file (type png)
 <use ../common/figures/declaration.png>
 Package pdftex.def Info: ../common/figures/declaration.png  used on input line 60.
@@ -425,10 +425,10 @@ l.63 \clearpage
                 [1
 
  <../common/figures/declaration.png>]
-<figures/a-lab2-matlab-model.png, id=23, 354.32375pt x 76.78688pt>
+<figures/a-lab2-matlab-model.png, id=27, 354.32375pt x 76.78688pt>
 File: figures/a-lab2-matlab-model.png Graphic file (type png)
 <use figures/a-lab2-matlab-model.png>
-Package pdftex.def Info: figures/a-lab2-matlab-model.png  used on input line 76.
+Package pdftex.def Info: figures/a-lab2-matlab-model.png  used on input line 75.
 (pdftex.def)             Requested size: 328.82707pt x 71.26341pt.
 LaTeX Font Info:    Trying to load font information for U+msa on input line 86.
  (C:\Users\igora\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
@@ -438,15 +438,15 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 86.
  (C:\Users\igora\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-<figures/a-inner-loop-model.png, id=25, 417.56pt x 63.23625pt>
+<figures/a-inner-loop-model.png, id=29, 417.56pt x 63.23625pt>
 File: figures/a-inner-loop-model.png Graphic file (type png)
 <use figures/a-inner-loop-model.png>
-Package pdftex.def Info: figures/a-inner-loop-model.png  used on input line 103.
+Package pdftex.def Info: figures/a-inner-loop-model.png  used on input line 102.
 (pdftex.def)             Requested size: 328.82707pt x 49.80072pt.
-<figures/a-system-model-sample-ctrler.png, id=27, 887.315pt x 142.03062pt>
+<figures/a-system-model-sample-ctrler.png, id=32, 887.315pt x 142.03062pt>
 File: figures/a-system-model-sample-ctrler.png Graphic file (type png)
 <use figures/a-system-model-sample-ctrler.png>
-Package pdftex.def Info: figures/a-system-model-sample-ctrler.png  used on input line 113.
+Package pdftex.def Info: figures/a-system-model-sample-ctrler.png  used on input line 117.
 (pdftex.def)             Requested size: 328.82707pt x 52.63284pt.
  [2
 
@@ -454,58 +454,58 @@ Package pdftex.def Info: figures/a-system-model-sample-ctrler.png  used on input
 pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.116 
+l.121 
       
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.116 
+l.121 
        <./figures/a-lab2-matlab-model.png> <./figures/a-inner-loop-model.png>]
-<figures/a-system-model-sample-ctrler-performance.png, id=43, 531.48563pt x 313.17pt>
+<figures/a-system-model-sample-ctrler-performance.png, id=50, 531.48563pt x 313.17pt>
 File: figures/a-system-model-sample-ctrler-performance.png Graphic file (type png)
 <use figures/a-system-model-sample-ctrler-performance.png>
-Package pdftex.def Info: figures/a-system-model-sample-ctrler-performance.png  used on input line 124.
+Package pdftex.def Info: figures/a-system-model-sample-ctrler-performance.png  used on input line 128.
 (pdftex.def)             Requested size: 328.82707pt x 193.76198pt.
-<figures/a-system-model-sample-ctrler-performance-zoomed.png, id=45, 528.97626pt x 314.67563pt>
+<figures/a-system-model-sample-ctrler-performance-zoomed.png, id=52, 528.97626pt x 314.67563pt>
 File: figures/a-system-model-sample-ctrler-performance-zoomed.png Graphic file (type png)
 <use figures/a-system-model-sample-ctrler-performance-zoomed.png>
-Package pdftex.def Info: figures/a-system-model-sample-ctrler-performance-zoomed.png  used on input line 134.
+Package pdftex.def Info: figures/a-system-model-sample-ctrler-performance-zoomed.png  used on input line 138.
 (pdftex.def)             Requested size: 328.82707pt x 195.61063pt.
  [3
 pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.139 \end{document}
-                    
+l.147 
+      
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.139 \end{document}
-                    
+l.147 
+      
 pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.139 \end{document}
-                     <./figures/a-system-model-sample-ctrler.png> <./figures/a-system-model-sample-ctrler-performance.png> <./figures/a-system-model-sample-ctrler-performance-zoomed.png>] (c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\lab3\aux_files\main.aux)
+l.147 
+       <./figures/a-system-model-sample-ctrler.png> <./figures/a-system-model-sample-ctrler-performance.png> <./figures/a-system-model-sample-ctrler-performance-zoomed.png>] [4] (c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\lab3\aux_files\main.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: B8AF742854565AC3FB857F0A5DD9B845;96.
+(rerunfilecheck)             Checksum: 798CB646FDD6A445EB602DFBDB7EAA8D;192.
  ) 
 Here is how much of TeX's memory you used:
- 12197 strings out of 474486
- 189126 string characters out of 5743755
+ 12208 strings out of 474486
+ 189305 string characters out of 5743755
  1933542 words of memory out of 5000000
- 34324 multiletter control sequences out of 15000+600000
+ 34328 multiletter control sequences out of 15000+600000
  564226 words of font info for 59 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,6n,79p,637b,474s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/igora/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/igora/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/igora/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/igora/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/igora/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/igora/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on "c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\lab3\aux_files\main.pdf" (4 pages, 291490 bytes).
+Output written on "c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\lab3\aux_files\main.pdf" (5 pages, 298921 bytes).
 PDF statistics:
- 86 PDF objects out of 1000 (max. 8388607)
- 12 named destinations out of 1000 (max. 500000)
- 44 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 105 PDF objects out of 1000 (max. 8388607)
+ 19 named destinations out of 1000 (max. 500000)
+ 52 words of extra memory for PDF output out of 10000 (max. 10000000)
 

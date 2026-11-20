@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1795193778.94853 "c:/Users/igora/Desktop/School/Class Material/4A/MTE 484/Lab/ball-and-beam-control/report/lab3/main.tex" "output/main.pdf" "main" 1795193781.0609 0
+["pdflatex"] 1795199626.85782 "c:/Users/igora/Desktop/School/Class Material/4A/MTE 484/Lab/ball-and-beam-control/report/lab3/main.tex" "output/main.pdf" "main" 1795199628.66537 0
   "../common/figures/University_of_Waterloo_seal.png" 1790800352 71145 0990ef8eff9dd4ac76edf2c7b640b4b4 ""
   "../common/figures/declaration.png" 1790999138 217804 6b9c7f3eca370ebd175728073456a7c7 ""
   "C:/Users/igora/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1795051952 81273 13337b4d62cad88d859596ff40e690da ""
@@ -92,15 +92,15 @@
   "C:/Users/igora/AppData/Local/Programs/MiKTeX/tex/latex/rerunfilecheck/rerunfilecheck.sty" 1657800696 9714 ba3194bd52c8499b3f1e3eb91d409670 ""
   "C:/Users/igora/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/igora/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1700127522 55487 80a65caedd3722f4c20a14a69e785d8f ""
-  "aux_files/main.aux" 1795193780 1507 ed75fc0933d5420d9b69f2d85e9d8b3e "pdflatex"
-  "aux_files/main.out" 1795193780 96 b8af742854565ac3fb857f0a5dd9b845 "pdflatex"
-  "c:/Users/igora/Desktop/School/Class Material/4A/MTE 484/Lab/ball-and-beam-control/report/lab3/main.tex" 1795193776 5594 69739b618a31e8ae23e881a606c74a62 ""
+  "aux_files/main.aux" 1795199628 2086 c8b3dc28049b4aba47ee1bcb6b7e35d5 "pdflatex"
+  "aux_files/main.out" 1795199628 192 798cb646fdd6a445eb602dfbdb7eaa8d "pdflatex"
+  "c:/Users/igora/Desktop/School/Class Material/4A/MTE 484/Lab/ball-and-beam-control/report/lab3/main.tex" 1795199625 7160 6ec131f2b08d31a24dd1dbc09c8b96e7 ""
   "figures/a-inner-loop-model.png" 1795142054 17819 47f5b9517e83852f8c1ab3be28477412 ""
   "figures/a-lab2-matlab-model.png" 1795140397 13469 b1ab1176a8531ec84d7f7c52dd567d1c ""
   "figures/a-system-model-sample-ctrler-performance-zoomed.png" 1795193501 21041 3df268a56feb86f559963aa4f0d70ac0 ""
   "figures/a-system-model-sample-ctrler-performance.png" 1795143559 28149 4b6a4aa82f033fb0178dbf54a422861d ""
   "figures/a-system-model-sample-ctrler.png" 1795143332 40673 79843dc1ced82abf055bd63c06968c07 ""
-  "main.tex" 1795193776 5594 69739b618a31e8ae23e881a606c74a62 ""
+  "main.tex" 1795199625 7160 6ec131f2b08d31a24dd1dbc09c8b96e7 ""
   (generated)
   "aux_files/main.aux"
   "aux_files/main.log"
