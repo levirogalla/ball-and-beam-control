@@ -12,6 +12,12 @@ float motor_controller_theta_to_volt_0(float theta_target, float theta);
 float motor_controller_theta_to_volt_1(float theta_target, float theta,
                                        float *previous_state);
 
+// Initialize both history values to 0 and retain them between control updates.
+float ball_controller_position_to_motor_angle(float position_target,
+                                              float position,
+                                              float *previous_output,
+                                              float *previous_error);
+
 void motor_controller_enable(bool enable);
 
 bool motor_controller_enabled();

@@ -11,6 +11,10 @@
 #define MOTOR_CONTROLLER_FIRST_ORDER_G0 4.8363f
 #define MOTOR_CONTROLLER_FIRST_ORDER_G1 -4.9717f
 
+#define BALL_CONTROLLER_PREVIOUS_OUTPUT_COEFF 1.99875f
+#define BALL_CONTROLLER_CURRENT_ERROR_COEFF -14.001225f
+#define BALL_CONTROLLER_PREVIOUS_ERROR_COEFF 13.998775f
+
 float pot_angle_raw_to_rad(int v) {
   return (float)v * ANGLE_SLOPE + ANGLE_INTERCEPT;
 }
@@ -37,6 +41,20 @@ float motor_controller_theta_to_volt_1(float theta_target, float theta,
           *previous_state;
   *previous_state = state;
   return u;
+}
+
+float ball_controller_position_to_motor_angle(float position_target,
+                                              float position,
+                                              float *previous_output,
+                                              float *previous_error) {
+  float error = position_target - position;
+  float output =
+      BALL_CONTROLLER_PREVIOUS_OUTPUT_COEFF * (*previous_output) +
+      BALL_CONTROLLER_CURRENT_ERROR_COEFF * error +
+      BALL_CONTROLLER_PREVIOUS_ERROR_COEFF * (*previous_error);
+  *previous_output = output;
+  *previous_error = error;
+  return output;
 }
 
 static bool s_enable_control_isr = false;
