@@ -1,7 +1,7 @@
-PWD c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\Lab2
+PWD c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\lab2
 INPUT C:\Users\igora\AppData\Local\MiKTeX\miktex\data\le\pdftex\pdflatex.fmt
-INPUT c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\Lab2\main.tex
-OUTPUT c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\Lab2\aux_files\main.log
+INPUT c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\lab2\main.tex
+OUTPUT c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\lab2\aux_files\main.log
 INPUT C:\Users\igora\AppData\Local\Programs\MiKTeX\tex\latex\base\article.cls
 INPUT C:\Users\igora\AppData\Local\Programs\MiKTeX\tex\latex\base\article.cls
 INPUT C:\Users\igora\AppData\Local\Programs\MiKTeX\tex\latex\base\size11.clo
@@ -128,10 +128,10 @@ INPUT C:\Users\igora\AppData\Local\Programs\MiKTeX\tex\latex\booktabs\booktabs.s
 INPUT C:\Users\igora\AppData\Local\Programs\MiKTeX\tex\latex\booktabs\booktabs.sty
 INPUT C:\Users\igora\AppData\Local\Programs\MiKTeX\tex\latex\l3backend\l3backend-pdftex.def
 INPUT C:\Users\igora\AppData\Local\Programs\MiKTeX\tex\latex\l3backend\l3backend-pdftex.def
-INPUT c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\Lab2\aux_files\main.aux
-INPUT c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\Lab2\aux_files\main.aux
-INPUT c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\Lab2\aux_files\main.aux
-OUTPUT c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\Lab2\aux_files\main.aux
+INPUT c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\lab2\aux_files\main.aux
+INPUT c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\lab2\aux_files\main.aux
+INPUT c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\lab2\aux_files\main.aux
+OUTPUT c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\lab2\aux_files\main.aux
 INPUT C:\Users\igora\AppData\Local\Programs\MiKTeX\tex\context\base\mkii\supp-pdf.mkii
 INPUT C:\Users\igora\AppData\Local\Programs\MiKTeX\tex\context\base\mkii\supp-pdf.mkii
 INPUT C:\Users\igora\AppData\Local\Programs\MiKTeX\tex\context\base\mkii\supp-pdf.mkii
@@ -140,34 +140,34 @@ INPUT C:\Users\igora\AppData\Local\Programs\MiKTeX\tex\latex\epstopdf-pkg\epstop
 INPUT C:\Users\igora\AppData\Local\Programs\MiKTeX\tex\latex\00miktex\epstopdf-sys.cfg
 INPUT C:\Users\igora\AppData\Local\Programs\MiKTeX\tex\latex\00miktex\epstopdf-sys.cfg
 INPUT C:\Users\igora\AppData\Local\Programs\MiKTeX\tex\latex\00miktex\epstopdf-sys.cfg
-INPUT c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\Lab2\aux_files\main.out
-INPUT c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\Lab2\aux_files\main.out
-INPUT c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\Lab2\aux_files\main.out
-INPUT c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\Lab2\aux_files\main.out
-OUTPUT c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\Lab2\aux_files\main.pdf
-INPUT c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\Lab2\aux_files\main.out
-INPUT c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\Lab2\aux_files\main.out
-OUTPUT c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\Lab2\aux_files\main.out
-INPUT .\figures\University_of_Waterloo_seal.png
-INPUT .\figures\University_of_Waterloo_seal.png
-INPUT .\figures\University_of_Waterloo_seal.png
-INPUT .\figures\University_of_Waterloo_seal.png
-INPUT .\figures\University_of_Waterloo_seal.png
-INPUT .\figures\University_of_Waterloo_seal.png
-INPUT .\figures\University_of_Waterloo_seal.png
+INPUT c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\lab2\aux_files\main.out
+INPUT c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\lab2\aux_files\main.out
+INPUT c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\lab2\aux_files\main.out
+INPUT c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\lab2\aux_files\main.out
+OUTPUT c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\lab2\aux_files\main.pdf
+INPUT c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\lab2\aux_files\main.out
+INPUT c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\lab2\aux_files\main.out
+OUTPUT c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\lab2\aux_files\main.out
+INPUT ..\common\figures\University_of_Waterloo_seal.png
+INPUT ..\common\figures\University_of_Waterloo_seal.png
+INPUT ..\common\figures\University_of_Waterloo_seal.png
+INPUT ..\common\figures\University_of_Waterloo_seal.png
+INPUT ..\common\figures\University_of_Waterloo_seal.png
+INPUT ..\common\figures\University_of_Waterloo_seal.png
+INPUT ..\common\figures\University_of_Waterloo_seal.png
 INPUT C:\Users\igora\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmr17.tfm
 INPUT C:\Users\igora\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmbx12.tfm
 INPUT C:\Users\igora\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmr12.tfm
 INPUT C:\Users\igora\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmr12.tfm
 INPUT C:\Users\igora\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmbx12.tfm
 INPUT C:\Users\igora\AppData\Local\MiKTeX\fonts\map\pdftex\pdftex.map
-INPUT .\figures\declaration.png
-INPUT .\figures\declaration.png
-INPUT .\figures\declaration.png
-INPUT .\figures\declaration.png
-INPUT .\figures\declaration.png
-INPUT .\figures\declaration.png
-INPUT .\figures\declaration.png
+INPUT ..\common\figures\declaration.png
+INPUT ..\common\figures\declaration.png
+INPUT ..\common\figures\declaration.png
+INPUT ..\common\figures\declaration.png
+INPUT ..\common\figures\declaration.png
+INPUT ..\common\figures\declaration.png
+INPUT ..\common\figures\declaration.png
 INPUT C:\Users\igora\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmr8.tfm
 INPUT C:\Users\igora\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmr6.tfm
 INPUT C:\Users\igora\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmmi10.tfm
@@ -361,9 +361,9 @@ INPUT ..\..\main\src\geeWhiz\geeWhiz.cpp
 INPUT ..\..\main\src\geeWhiz\geeWhiz.cpp
 INPUT ..\..\main\src\geeWhiz\geeWhiz.cpp
 INPUT C:\Users\igora\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\tcti1095.tfm
-INPUT c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\Lab2\aux_files\main.aux
-INPUT c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\Lab2\aux_files\main.out
-INPUT c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\Lab2\aux_files\main.out
+INPUT c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\lab2\aux_files\main.aux
+INPUT c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\lab2\aux_files\main.out
+INPUT c:\Users\igora\Desktop\School\Class Material\4A\MTE 484\Lab\ball-and-beam-control\report\lab2\aux_files\main.out
 INPUT C:\Users\igora\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\tcti1095.pk
 INPUT C:\Users\igora\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\tcti1095.pk
 INPUT C:\Users\igora\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\tcrm1095.pk
