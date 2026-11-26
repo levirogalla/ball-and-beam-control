@@ -22,4 +22,8 @@ void motor_controller_enable(bool enable);
 
 bool motor_controller_enabled();
 
+void ball_controller_enable(bool enable);
+
+bool ball_controller_enabled();
+
 #endif

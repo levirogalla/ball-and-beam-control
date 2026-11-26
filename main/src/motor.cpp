@@ -19,6 +19,7 @@ static constexpr float PWM_HZ = 24000.0f;
 static constexpr float VMAX = 6.0f;
 static constexpr float DUTY_MAX = 99.2f;
 static std::atomic<float> s_theta_desired{0.0f};
+static std::atomic<float> s_pos_desired{0.0f};
 static float s_motor_last_set_voltage = 0;
 
 // must be called before motor init
@@ -108,6 +109,16 @@ float theta_desired_get(void)
 float theta_desired_saturated_get(void)
 {
   return theta_desired_saturate(theta_desired_get());
+}
+
+void pos_desired_set(float pos)
+{
+  s_pos_desired.store(pos, std::memory_order_relaxed);
+}
+
+float pos_desired_get(void)
+{
+  return s_pos_desired.load(std::memory_order_relaxed);
 }
 
 void calculate_overshoot(uint32_t period_ms)

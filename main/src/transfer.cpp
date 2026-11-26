@@ -11,15 +11,17 @@
 #define MOTOR_CONTROLLER_FIRST_ORDER_G0 4.8363f
 #define MOTOR_CONTROLLER_FIRST_ORDER_G1 -4.9717f
 
-#define BALL_CONTROLLER_PREVIOUS_OUTPUT_COEFF 1.99875f
-#define BALL_CONTROLLER_CURRENT_ERROR_COEFF -14.001225f
-#define BALL_CONTROLLER_PREVIOUS_ERROR_COEFF 13.998775f
+#define BALL_CONTROLLER_PREVIOUS_OUTPUT_COEFF 0.99875078076f
+#define BALL_CONTROLLER_CURRENT_ERROR_COEFF -6.9962398501f
+#define BALL_CONTROLLER_PREVIOUS_ERROR_COEFF 6.9950156152f
 
-float pot_angle_raw_to_rad(int v) {
+float pot_angle_raw_to_rad(int v)
+{
   return (float)v * ANGLE_SLOPE + ANGLE_INTERCEPT;
 }
 
-float sense_distance_raw_to_m(int v) {
+float sense_distance_raw_to_m(int v)
+{
   return (float)v * DISTANCE_SLOPE + DISTANCE_INTERCEPT;
 }
 
@@ -57,6 +59,9 @@ float ball_controller_position_to_motor_angle(float position_target,
   return output;
 }
 
-static bool s_enable_control_isr = false;
-void motor_controller_enable(bool enable) { s_enable_control_isr = enable; }
-bool motor_controller_enabled() { return s_enable_control_isr; }
+static bool s_enable_motor_control = false;
+static bool s_enable_ball_control = false;
+void motor_controller_enable(bool enable) { s_enable_motor_control = enable; }
+bool motor_controller_enabled() { return s_enable_motor_control; }
+void ball_controller_enable(bool enable) { s_enable_ball_control = enable; }
+bool ball_controller_enabled() { return s_enable_ball_control; }

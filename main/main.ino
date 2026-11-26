@@ -21,6 +21,7 @@ typedef enum {
   APP_STATE_SQUARE_WAVE,
   APP_STATE_CHARACTERIZE_BALL_SENSOR,
   APP_STATE_GRAVITY_THING,
+  APP_STATE_BALL_CONTROL,
   APP_STATE_ESTOP,
 } AppState;
 
@@ -45,7 +46,7 @@ void setup()
   motor_init();
   set_control_interval_us(ISR_PERIOD_US); // 2 kHz
 
-  s_app_state = APP_STATE_GRAVITY_THING;
+  s_app_state = APP_STATE_BALL_CONTROL;
   logging_start_us = micros();
   Serial.println("initialization complete!");
 }
@@ -104,6 +105,15 @@ void loop()
 
     break;
   }
+  case APP_STATE_BALL_CONTROL: {
+    // set pos_desired to alternate between 0.10 - 0.25, period 20s
+    pos_desired_set(0.175 + 0.075 * calculate_square_wave(20000, 0.5, 0.0f));
+
+    ball_controller_enable(true);
+    motor_controller_enable(true);
+
+    break;
+  }
   case APP_STATE_ESTOP:
     motor_controller_enable(false);
     theta_desired_set(0.7 * calculate_square_wave(2000, 0.5, 0.0f));
@@ -129,12 +139,17 @@ void loop()
 
 // ================== Control ISR ==================
 static float controller_init_state = 0;
+// [Alex] I don't know how to make the error and output into
+// one state: @Levi if you could figure that out that'd be dope thx
+static float ball_controller_init_error = 0;
+static float ball_controller_init_output = 0;
 void interval_control_code(void)
 {
   sample++;
   pot_angle_populate();
   sense_distance_populate();
   float angle = pot_angle_read_eng();
+  float position = sense_distance_read_eng();
 
   if (abs(angle) > 0.8)
   {
@@ -143,6 +158,13 @@ void interval_control_code(void)
     s_app_state = APP_STATE_ESTOP;
   }
 
+  if (ball_controller_enabled()) {
+    float pos_desired = pos_desired_get();
+    float angle_desired = ball_controller_position_to_motor_angle(
+      pos_desired, position, &ball_controller_init_output, &ball_controller_init_error
+    );
+    theta_desired_set(angle_desired);
+  }
   if (motor_controller_enabled()) {
     float theta_desired = theta_desired_saturated_get();
     motor_voltage_no_stick_set(motor_controller_theta_to_volt_1(
