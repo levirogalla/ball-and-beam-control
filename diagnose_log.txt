@@ -1,0 +1,171 @@
+-------------------------------------------------------
+MATLAB Version: 26.2.0.3433840 (R2026b) Update 1
+MATLAB License Number: 40900993
+Operating System: macOS  Version: 15.7.4 Build: 24G508 
+Java Version: Java is not loaded
+-------------------------------------------------------
+MATLAB                                                Version 26.2        (R2026b)
+Simulink                                              Version 26.2        (R2026b)
+Control System Toolbox                                Version 26.2        (R2026b)
+MATLAB Copilot                                        Version 26.2        (R2026b)
+Robust Control Toolbox                                Version 26.2        (R2026b)
+Simulink Control Design                               Version 26.2        (R2026b)
+    {'MTE484Lab3/Beam Angle to Ball Position'}    {'TransferFcn'           }
+    {'MTE484Lab3/Bias'                       }    {'Bias'                  }
+    {'MTE484Lab3/C(s)'                       }    {'TransferFcn'           }
+    {'MTE484Lab3/Motor to Beam Angle'        }    {'Gain'                  }
+    {'MTE484Lab3/Outer loop controller'      }    {'TransferFcn'           }
+    {'MTE484Lab3/P(s)'                       }    {'TransferFcn'           }
+    {'MTE484Lab3/Pulse↵Generator'            }    {'DiscretePulseGenerator'}
+    {'MTE484Lab3/Scope'                      }    {'Scope'                 }
+    {'MTE484Lab3/Subtract'                   }    {'Sum'                   }
+    {'MTE484Lab3/Sum'                        }    {'Sum'                   }
+
+
+p =
+
+  1×1 <a href="matlab:helpPopup('cell')" style="font-weight:bold">cell</a> array
+
+    {'MTE484Lab3/Outer loop controller'}
+
+
+inside =
+
+  1×1 <a href="matlab:helpPopup('cell')" style="font-weight:bold">cell</a> array
+
+    {'MTE484Lab3/Outer loop controller'}
+
+ 
+<a href="matlab:help slTuner">slTuner</a> tuning interface for "MTE484Lab3":
+
+1 Tuned blocks: (Read-only TunedBlocks property) 
+--------------------------
+Block 1: <a href="matlab:hilite_system('MTE484Lab3/Outer loop controller','find');pause(1);hilite_system('MTE484Lab3/Outer loop controller','none');">MTE484Lab3/Outer loop controller</a>
+ 
+3 Analysis points: 
+--------------------------
+Point 1: Signal "r(t)", located at '<a href="matlab:Simulink.internal.open_and_hilite_port_hyperlink('hilite', ['MTE484Lab3/Bias'], 'Outport', 1);">Output Port 1</a>' of <a href="matlab:hilite_system('MTE484Lab3/Bias','find');pause(1);hilite_system('MTE484Lab3/Bias','none');">MTE484Lab3/Bias</a>
+Point 2: Signal "u(t)", located at '<a href="matlab:Simulink.internal.open_and_hilite_port_hyperlink('hilite', ['MTE484Lab3/Outer loop controller'], 'Outport', 1);">Output Port 1</a>' of <a href="matlab:hilite_system('MTE484Lab3/Outer loop controller','find');pause(1);hilite_system('MTE484Lab3/Outer loop controller','none');">MTE484Lab3/Outer loop controller</a>
+Point 3: Signal "y(t)", located at '<a href="matlab:Simulink.internal.open_and_hilite_port_hyperlink('hilite', ['MTE484Lab3/Beam Angle to Ball Position'], 'Outport', 1);">Output Port 1</a>' of <a href="matlab:hilite_system('MTE484Lab3/Beam Angle to Ball Position','find');pause(1);hilite_system('MTE484Lab3/Beam Angle to Ball Position','none');">MTE484Lab3/Beam Angle to Ball Position</a>
+ 
+No permanent openings. Use <a href="matlab:help slLinearizer/addOpening">addOpening</a> to add new permanent openings.
+Properties with dot notation get/set access:
+      Parameters         : [] 
+      OperatingPoints    : [] (model initial condition will be used.)
+      BlockSubstitutions : []
+      Options            : [1x1 linearize.SlTunerOptions]
+      Ts                 : 0
+
+Block 1: <a href="matlab:hilite_system('MTE484Lab3/Outer loop controller','find');pause(1);hilite_system('MTE484Lab3/Outer loop controller','none');">MTE484Lab3/Outer loop controller</a> =
+
+  -1.239 s - 2.126e-07
+  --------------------
+       s + 0.3268
+ 
+Name: Outer_loop_controller
+Continuous-time transfer function.
+
+
+plant = 
+
+  From input "u(t)" to output "y(t)":
+          -66.264 (s+55.22)
+  ----------------------------------
+  s^2 (s+55.23) (s^2 + 24.95s + 256)
+ 
+Continuous-time zero/pole/gain model.
+<a href="matlab:disp(char([10 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 90 58 32 123 91 45 53 53 46 50 50 48 50 93 125 10 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 80 58 32 123 91 53 215 49 32 100 111 117 98 108 101 93 125 10 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 75 58 32 45 54 54 46 50 54 52 51 10 32 32 32 32 68 105 115 112 108 97 121 70 111 114 109 97 116 58 32 39 114 111 111 116 115 39 10 32 32 32 32 32 32 32 32 32 86 97 114 105 97 98 108 101 58 32 39 115 39 10 32 32 32 32 32 32 32 32 32 32 73 79 68 101 108 97 121 58 32 48 10 32 32 32 32 32 32 32 73 110 112 117 116 68 101 108 97 121 58 32 48 10 32 32 32 32 32 32 79 117 116 112 117 116 68 101 108 97 121 58 32 48 10 32 32 32 32 32 32 32 32 73 110 112 117 116 78 97 109 101 58 32 123 39 117 40 116 41 39 125 10 32 32 32 32 32 32 32 32 73 110 112 117 116 85 110 105 116 58 32 123 39 39 125 10 32 32 32 32 32 32 32 73 110 112 117 116 71 114 111 117 112 58 32 91 49 215 49 32 115 116 114 117 99 116 93 10 32 32 32 32 32 32 32 79 117 116 112 117 116 78 97 109 101 58 32 123 39 121 40 116 41 39 125 10 32 32 32 32 32 32 32 79 117 116 112 117 116 85 110 105 116 58 32 123 39 39 125 10 32 32 32 32 32 32 79 117 116 112 117 116 71 114 111 117 112 58 32 91 49 215 49 32 115 116 114 117 99 116 93 10 32 32 32 32 32 32 32 32 32 32 32 32 78 111 116 101 115 58 32 91 48 215 49 32 115 116 114 105 110 103 93 10 32 32 32 32 32 32 32 32 32 85 115 101 114 68 97 116 97 58 32 91 93 10 32 32 32 32 32 32 32 32 32 32 32 32 32 78 97 109 101 58 32 39 39 10 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 84 115 58 32 48 10 32 32 32 32 32 32 32 32 32 84 105 109 101 85 110 105 116 58 32 39 115 101 99 111 110 100 115 39 10 32 32 32 32 32 83 97 109 112 108 105 110 103 71 114 105 100 58 32 91 49 215 49 32 115 116 114 117 99 116 93 10]))">Model Properties</a>
+
+plantPoles =
+
+   0.0000 + 0.0000i
+   0.0000 + 0.0000i
+ -55.2263 + 0.0000i
+ -12.4755 +10.0177i
+ -12.4755 -10.0177i
+
+
+plantDC =
+
+   Inf
+
+
+currentDC =
+
+    1.0000
+
+
+currentPoles =
+
+ -12.4914 +10.0210i
+ -12.4914 -10.0210i
+  -0.1475 + 0.5462i
+  -0.1475 - 0.5462i
+  -0.0000 + 0.0000i
+ -55.2263 + 0.0000i
+
+
+currentInfo = 
+
+  <a href="matlab:helpPopup('struct')" style="font-weight:bold">struct</a> with fields:
+
+         RiseTime: 2.2535
+    TransientTime: 24.9068
+     SettlingTime: 24.9068
+      SettlingMin: 0.8169
+      SettlingMax: 1.4275
+        Overshoot: 42.7509
+       Undershoot: 0
+             Peak: 1.4275
+         PeakTime: 5.9315
+
+Final: Soft = -Inf, Hard = 1.447, Iterations = 33
+Final: Soft = -Inf, Hard = 1.4471, Iterations = 42
+       Some closed-loop poles are marginally stable (decay rate near 1e-07)
+Final: Soft = -Inf, Hard = 1.4472, Iterations = 74
+       Some closed-loop poles are marginally stable (decay rate near 1e-07)
+Final: Soft = -Inf, Hard = 1.447, Iterations = 62
+Final: Soft = -Inf, Hard = 1.447, Iterations = 46
+Final: Soft = -Inf, Hard = 1.447, Iterations = 51
+
+gHard =
+
+    1.4470    0.8241    1.4470
+
+
+Block 1: <a href="matlab:hilite_system('MTE484Lab3/Outer loop controller','find');pause(1);hilite_system('MTE484Lab3/Outer loop controller','none');">MTE484Lab3/Outer loop controller</a> =
+
+  -1.358 s - 6.506e-05
+  --------------------
+       s + 0.3949
+ 
+Name: Outer_loop_controller
+Continuous-time transfer function.
+
+
+tunedDC =
+
+    1.0000
+
+
+tunedStable =
+
+  <a href="matlab:helpPopup('logical')" style="font-weight:bold">logical</a>
+
+   1
+
+
+tunedInfo = 
+
+  <a href="matlab:helpPopup('struct')" style="font-weight:bold">struct</a> with fields:
+
+         RiseTime: 2.2505
+    TransientTime: 19.0482
+     SettlingTime: 19.0482
+      SettlingMin: 0.8653
+      SettlingMax: 1.3670
+        Overshoot: 36.7017
+       Undershoot: 0
+             Peak: 1.3670
+         PeakTime: 5.6302
+
